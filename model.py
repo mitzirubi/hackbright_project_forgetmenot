@@ -13,7 +13,7 @@ db = SQLAlchemy()
 ##############################################################################
 # Model definitions
 
-class Restaurants(db.Model):
+class Restaurant(db.Model):
     """Restaurants users have liked on IG Account stored in forgetmenot"""
 
     __tablename__ = "restaurants"
@@ -35,8 +35,11 @@ class Restaurants(db.Model):
         return ("<Restaurant restaurant_id=%s user_id=%s \
                 restaurant_name=%s>") % (self.restaurant_id,
                                           self.user_id, self.restaurant_name)
-class  Locations(db.Model):
+class Location(db.Model):
     """Location information of restaurant will help with relationship"""
+
+    __tablename__ = "locations"
+
     location_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     latitude = db.Column(db.Integer, nullable=True)   #location of restaurant
     longitude = db.Column(db.Integer, nullable=True)   #location of restuarant
@@ -67,7 +70,7 @@ class RestaurantLocation(db.Model):
                                                                                    self.restaurant_id,
                                                                                    self.location_id)
 
-class Users(db.Model):
+class User(db.Model):
     """User information from IG accounts."""
 
     __tablename__ = "users"
@@ -85,7 +88,7 @@ class Users(db.Model):
                                                                    self.username,
                                                                    self.access_token)
 
-class UserRestaurantslikes (object):
+class UserRestaurantslike(db.Model):
     """User relationship to Restaurants of IG posts they have liked."""
 
     __tablename__ = "UserRestaurantslikes"
@@ -104,7 +107,7 @@ class UserRestaurantslikes (object):
         return "<UserRestaurantslikes user_id =%s restaurant_id user_notes=%s>" % (self.user_id,
                                                                                    self.restaurant_id,
                                                                                    self.user_notes)
-class Categories(db.Model):
+class Category(db.Model):
     """Catergorize IG Photos"""
 
     __tablename__ = "categories"
