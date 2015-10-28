@@ -1,0 +1,22 @@
+<!doctype.html>
+<html>
+<head>
+    <title> Forgetmenot </title>
+</head>
+<body>
+    Forgetmenot 
+    <hr> <!--horizontal row !--> 
+    {% for message in get_flashed_messages() %}
+        {{ message }}  enables my flash messages 
+    {% endfor %}
+
+    {% block content %} 
+
+
+    put your content here 
+
+
+    {% endblock %}
+
+</body>
+</html> 

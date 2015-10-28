@@ -18,6 +18,11 @@ app.jinja_env.undefined = StrictUndefined
 ################################################################################
 
 @app.route('/Forgetmenot')
+def homepage():
+    """Homepage."""
+
+    return render_template("homepage.html")
+
 
 ################################################################################
 if __name__ == "__main__":

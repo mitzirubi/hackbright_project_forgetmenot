@@ -13,62 +13,24 @@ db = SQLAlchemy()
 ##############################################################################
 # Model definitions
 
-class Restaurant(db.Model):
-    """Restaurants users have liked on IG Account stored in forgetmenot"""
+class Place(db.Model):
+    """Places users have liked on IG Account stored in forgetmenot"""
 
-    __tablename__ = "restaurants"
+    __tablename__ = "places"
 
-    restaurant_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('Users.user_id'))
-    restaurant_name = db.Column(db.String(200), nullable=True)  #because some photos may not have locations
-    image_url = db.Column(db.String(200), nullable=False)
-    thumbnail_url = db.Column(db.String(200), nullable=False)
-    user_notes = db.Column(db.Text, nullable=True)  ##.Text
-    liked_at = db.Column(db.DateTime, nullable=False)  #is this the correct timestamp adder? yes
-    created_at = db.Column(db.DateTime, default=datetime.datetime.utcnow())
-    visited_at = db.Column(db.Boolean, default=False, nullable=False)   #the date you visitied the location true or false instead
-    category_id = db.Column(db.Integer, db.ForeignKey('Categories.category_id'))
+    place_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    place_name = db.Column(db.String(200), nullable=True)  # because some photos may not have locations
+    category = db.Column(db.String(50), db.ForeignKey('Categories.category'))
+    latitude = db.Column(db.Integer, nullable=False)   # location of place
+    longitude = db.Column(db.Integer, nullable=False)   # location of restuarant
 
     def __repr__(self):
-        """Provide helpful information about the restaurant."""
+        """Provide helpful information about the place."""
 
-        return ("<Restaurant restaurant_id=%s user_id=%s \
-                restaurant_name=%s>") % (self.restaurant_id,
-                                          self.user_id, self.restaurant_name)
-class Location(db.Model):
-    """Location information of restaurant will help with relationship"""
+        return ("<Place place_id=%s user_id=%s \
+                place_name=%s>") % (self.place_id,
+                                    self.user_id, self.place_name)
 
-    __tablename__ = "locations"
-
-    location_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    latitude = db.Column(db.Integer, nullable=True)   #location of restaurant
-    longitude = db.Column(db.Integer, nullable=True)   #location of restuarant
-    category_id = db.Column(db.Integer, db.ForeignKey('Categories.category_id'))
-    Street1 = db.Column(db.Integer(150), nullable=True)
-    apt = db.Column(db.String(10), nullable=True)
-    city = db.Column(db.String(50),nullable=True)
-    state = db.Column(db.String(50), nullable=True)
-    zip_code =db.Column(db.Integer(30), nullable=True)
-    country =db.Column(db.Integer(20), nullable=True)
-
-class RestaurantLocation(db.Model):
-    """relationship between restaurants and locations"""
-
-    __tablename__ = "RestaurantLocation"
-
-    restaurant_id =db.Column(db.Integer,db.ForeignKey('restaurants.restaurant_id'))
-    location_id = db.Column(db.Integer,db.ForeignKey('locations.location_id'))
-
-    #define relationsip of restaurants to location
-    restlocation_id = (db.relationship("Location", backref=db.backref(RestaurantLocation),
-                                                  order_by=restaurant_id,primary_key=True))
-
-    def __repr__(self):
-        """provide helpful information about relationship of restuarant and locations"""
-
-        return "<RestaurantLocation rest_location_id=%s restaurant_id location_id=%s>" % (self.restlocation_id,
-                                                                                   self.restaurant_id,
-                                                                                   self.location_id)
 
 class User(db.Model):
     """User information from IG accounts."""
@@ -85,39 +47,47 @@ class User(db.Model):
         """Provide helpful information about the user"""
 
         return ("<User user_id=%s username=%s access_token=%s>") % (self.user_id,
-                                                                   self.username,
-                                                                   self.access_token)
+                                                                    self.username,
+                                                                    self.access_token)
 
-class UserRestaurantslike(db.Model):
-    """User relationship to Restaurants of IG posts they have liked."""
 
-    __tablename__ = "UserRestaurantslikes"
+class LikedImages(db.Model):
+    """Images users have liked associated with a Place"""
 
-    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
-    restaurant_id = db.Column(db.Integer, db.ForeignKey('restaurants.restaurant_id'))
-    user_notes = db.Column(db.Text, db.ForeignKey('restaurants.user_notes'))
+    __tablename__ = "liked_images"
 
-    ##define relationsip of user to restaurants
-    user= db.relationship("Restaurants",backref=db.backref("UserRestaurantslikes", order_by=created_at,primary_key=True))
-    #do i need a relationship of restaurants ex: reaturant = db.relationship("Users", backbref=db.backfres("UserRestaurantslikes"), order_by=created_at, )
+    liked_image_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
+    place_id = db.Column(db.Integer, db.ForeignKey('images.place_id'), nullable=False)
+    liked_at = db.Column(db.DateTime, nullable=False, default=datetime.datetime.now())  # is this the correct timestamp adder? yes
+    visited = db.Column(db.Boolean, default=False, nullable=False)   # the date you visitied the location true or false instead
+    image_url = db.Column(db.Text, nullable=False)
+    user_note = db.Column(db.Text)
+
+    ##define relationsip of user to images
+    user = db.relationship("User", backref=db.backref("likes", order_by=liked_image_id))
+    images = db.relationship("Images", backref=db.backref("likes", order_by=liked_image_id))
+    #do i need a relationship of images ex: reaturant = db.relationship("Users", backbref=db.backfres("UserImageslikes"), order_by=created_at, )
 
     def __repr__(self):
         """provide helpful information about restuarant and user information"""
 
-        return "<UserRestaurantslikes user_id =%s restaurant_id user_notes=%s>" % (self.user_id,
-                                                                                   self.restaurant_id,
-                                                                                   self.user_notes)
+        return "<LikedImages user_id =%s place_id user_notes=%s>" % (self.user_id,
+                                                                     self.place_id,
+                                                                     self.user_notes)
+
+
 class Category(db.Model):
     """Catergorize IG Photos"""
 
     __tablename__ = "categories"
 
-    category_id = db.Column(db.Interger, autoincrement=True, primary_key=True)
+    category = db.Column(db.String, primary_key=True)
 
     def __repr__(self):
         """Provide helpful information about the image category"""
 
-        return ("<Category category_id=%s>") % (self.category_id)
+        return ("<Category category=%s>") % (self.category)
 
 
 ##############################################################################
@@ -127,7 +97,7 @@ def connect_to_db(app):
     """Connect the database to our Flask app."""
 
     # Configure to use our SQLite database (app is an instance and config is a dictionary)
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///forgetmenot.db'   #created a new db link
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///forgetmenot.db'   # created a new db link
     app.config['SQLALCHEMY_ECHO'] = True
     db.app = app
     db.init_app(app)
