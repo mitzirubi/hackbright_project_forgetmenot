@@ -5,7 +5,7 @@ from jinja2 import StrictUndefined
 from flask import Flask, render_template, redirect, request, flash, session
 from flask_debugtoolbar import DebugToolbarExtension
 
-from model import Restaurant, Location, RestaurantLocation,User, UserRestaurantslike, Category, connect_to_db, db
+from model import Place, User, LikedImages, Category, connect_to_db, db
 
 app = Flask(__name__)
 
@@ -17,7 +17,7 @@ app.secret_key = "ABC"
 app.jinja_env.undefined = StrictUndefined
 ################################################################################
 
-@app.route('/forgetmenot') #homepage.html
+@app.route('/forgetmenot')  # homepage.html
 def homepage():
     """Homepage."""
 
@@ -25,22 +25,27 @@ def homepage():
 
 @app.route('/authentication')
 def user_authentication():
+    """This will prompt the user to authorize Forgetmenot to their IG account."""
     pass
 
 @app.route('/forgetmenotfavorites')
 def forgetmenotfavorties():
+    """Render all of the users favorited IG posts."""
     pass
 
 @app.route('/myprofile')
 def myprofile():
+    """Render the user profile and show their basic info and visited likes."""
     pass
 
 @app.route('/favoritedinfo')
 def favoritedinfo():
+    """Shows a photo profile info, in our case all of the restaurant profile"""
     pass
 
 @app.route('/mapmehere')
 def findmehere():
+    """Displays all of users favorited IG posts in a map view"""
     pass
 
 ################################################################################
