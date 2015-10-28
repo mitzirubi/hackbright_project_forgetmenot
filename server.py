@@ -17,7 +17,7 @@ app.secret_key = "ABC"
 app.jinja_env.undefined = StrictUndefined
 ################################################################################
 
-@app.route('/forgetmenot')
+@app.route('/forgetmenot') #homepage.html
 def homepage():
     """Homepage."""
 
@@ -27,16 +27,16 @@ def homepage():
 def user_authentication():
     pass
 
-@app.route('/remembermelikes')
-def rememberme():
+@app.route('/forgetmenotfavorites')
+def forgetmenotfavorties():
     pass
 
 @app.route('/myprofile')
 def myprofile():
     pass
 
-@app.route('/likesinfo')
-def likesinfo():
+@app.route('/favoritedinfo')
+def favoritedinfo():
     pass
 
 @app.route('/mapmehere')
