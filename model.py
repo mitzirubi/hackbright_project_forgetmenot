@@ -13,25 +13,6 @@ db = SQLAlchemy()
 ##############################################################################
 # Model definitions
 
-class Place(db.Model):
-    """Places users have liked on IG Account stored in forgetmenot"""
-
-    __tablename__ = "places"
-
-    place_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    place_name = db.Column(db.String(200), nullable=True)  # because some photos may not have locations
-    category = db.Column(db.String(50), db.ForeignKey('Categories.category'))
-    latitude = db.Column(db.Integer, nullable=False)   # location of place
-    longitude = db.Column(db.Integer, nullable=False)   # location of restuarant
-
-    def __repr__(self):
-        """Provide helpful information about the place."""
-
-        return ("<Place place_id=%s user_id=%s \
-                place_name=%s>") % (self.place_id,
-                                    self.user_id, self.place_name)
-
-
 class User(db.Model):
     """User information from IG accounts."""
 
@@ -49,6 +30,25 @@ class User(db.Model):
         return ("<User user_id=%s username=%s access_token=%s>") % (self.user_id,
                                                                     self.username,
                                                                     self.access_token)
+
+
+class Place(db.Model):
+    """Places users have liked on IG Account stored in forgetmenot"""
+
+    __tablename__ = "places"
+
+    place_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    place_name = db.Column(db.String(200), nullable=True)  # because some photos may not have locations
+    category = db.Column(db.String(50), db.ForeignKey('Categories.category'))
+    latitude = db.Column(db.Integer, nullable=False)   # location of place
+    longitude = db.Column(db.Integer, nullable=False)   # location of restuarant
+
+    def __repr__(self):
+        """Provide helpful information about the place."""
+
+        return ("<Place place_id=%s user_id=%s \
+                place_name=%s>") % (self.place_id,
+                                    self.user_id, self.place_name)
 
 
 class LikedImages(db.Model):
