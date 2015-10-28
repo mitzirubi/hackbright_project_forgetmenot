@@ -17,12 +17,31 @@ app.secret_key = "ABC"
 app.jinja_env.undefined = StrictUndefined
 ################################################################################
 
-@app.route('/Forgetmenot')
+@app.route('/forgetmenot')
 def homepage():
     """Homepage."""
 
     return render_template("homepage.html")
 
+@app.route('/authentication')
+def user_authentication():
+    pass
+
+@app.route('/remembermelikes')
+def rememberme():
+    pass
+
+@app.route('/myprofile')
+def myprofile():
+    pass
+
+@app.route('/likesinfo')
+def likesinfo():
+    pass
+
+@app.route('/mapmehere')
+def findmehere():
+    pass
 
 ################################################################################
 if __name__ == "__main__":
