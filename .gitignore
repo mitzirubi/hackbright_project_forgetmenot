@@ -3,3 +3,5 @@ env
 .db 
 secrets.sh
 .gitignore
+notes.txt
+IGDataStructure.py

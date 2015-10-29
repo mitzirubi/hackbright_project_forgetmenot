@@ -5,7 +5,7 @@ from jinja2 import StrictUndefined
 from flask import Flask, render_template, redirect, request, flash, session
 from flask_debugtoolbar import DebugToolbarExtension
 
-from model import Place, User, LikedImages, Category, connect_to_db, db
+from model import Place, User, LikedImage, Category, connect_to_db, db
 
 app = Flask(__name__)
 
@@ -26,7 +26,8 @@ def homepage():
 @app.route('/authentication')
 def user_authentication():
     """This will prompt the user to authorize Forgetmenot to their IG account."""
-    pass
+    if user:
+        session['']
 
 @app.route('/forgetmenotfavorites')
 def forgetmenotfavorties():
