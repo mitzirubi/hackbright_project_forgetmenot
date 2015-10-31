@@ -19,12 +19,12 @@ class User(db.Model):
     __tablename__ = "Users"
 
     user_id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(50), nullable=False)
-    user_email = db.Column(db.String(100), nullable=True)
+    username = db.Column(db.String(75), nullable=False)
+    user_email = db.Column(db.String(100), nullable=True) #it will not be required 
     profile_picture = db.Column(db.String(200), nullable=True)
-    access_token = db.Column(db.String(20), nullable=False)
-    client_id = db.Column(db.String(20), nullable=False) # added this because of OAuth ask meggie!
-
+    access_token = db.Column(db.String(80), nullable=False) #true unless I create OAuth change in next table 
+    # client_id = db.Column(db.String(80), nullable=False)  # added this because of OAuth #delete this 
+    #need to drop table and readd 
     def __repr__(self):
         """Provide helpful information about the user"""
 
@@ -43,7 +43,7 @@ class Place(db.Model):
     category = db.Column(db.String(50), db.ForeignKey('Categories.category'))
     latitude = db.Column(db.Integer, nullable=False)   # location of place
     longitude = db.Column(db.Integer, nullable=False)
-    ig_place_id = db.Column(db.Integer, nullable=False)  # location of restuarant
+    instagram_place_id = db.Column(db.Integer, nullable=False)  # location of restuarant
 
     def __repr__(self):
         """Provide helpful information about the place."""
@@ -61,10 +61,10 @@ class LikedImage(db.Model):
     liked_image_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('Users.user_id'), nullable=False)
     place_id = db.Column(db.Integer, db.ForeignKey('Places.place_id'), nullable=False)
-    liked_at = db.Column(db.DateTime, nullable=False, default=datetime.datetime.now())  # is this the correct timestamp adder? yes
+    liked_at = db.Column(db.DateTime, nullable=False, default=datetime.datetime.now())  # adding the exact time
     visited = db.Column(db.Boolean, default=False, nullable=False)   # the date you visitied the location true or false instead
     image_url = db.Column(db.Text, nullable=False)
-    user_note = db.Column(db.Text)
+    user_note = db.Column(db.Text, nullable=True)
 
     ##define relationsip of user to images
     user = db.relationship("User", backref=db.backref("likes", order_by=liked_image_id))
@@ -83,7 +83,7 @@ class Category(db.Model):
 
     __tablename__ = "Categories"
 
-    category = db.Column(db.String, primary_key=True)
+    category = db.Column(db.String(50), primary_key=True)  # CHANGED to text
 
     def __repr__(self):
         """Provide helpful information about the image category"""
