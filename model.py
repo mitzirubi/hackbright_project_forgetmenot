@@ -23,8 +23,9 @@ class User(db.Model):
     user_email = db.Column(db.String(100), nullable=True)  # it will not be required
     profile_picture = db.Column(db.String(200), nullable=True)
     access_token = db.Column(db.String(80), nullable=True)  # true unless I create OAuth change in next table
-    client_id = db.Column(db.String(80), nullable=True)  # added this because of OAuth making nullable true, can change
-                                                        # after project season
+    client_id = db.Column(db.String(80), nullable=True)  # added this because of OAuth making nullable true, can change after project season
+    user_password = db.Column(db.String(40), nullable=True)
+
     def __repr__(self):
         """Provide helpful information about the user"""
 
@@ -54,7 +55,7 @@ class Place(db.Model):
 class LikedImage(db.Model):
     """Images users have liked associated with a Place"""
 
-    __tablename__ = "Liked_Images"
+    __tablename__ = "LikedImages"
 
     liked_image_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('Users.user_id'), nullable=False)

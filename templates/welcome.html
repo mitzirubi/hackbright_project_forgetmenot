@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<title> Favorited Instagrams to remember </title> 
+
+    <h2>Existing User? Login here</h2>
+  <form action="/login" method="POST"> <!--this form can only be one method at a time so its "method" not "methods" -->
+      
+    <div>
+      <label>Email address:
+          <input type="text" name="email" placeholder="e-mail"><br>
+      </label>
+    </div>
+
+    <div>
+      <label>password
+          <input type="password" name="password" placeholder="password"><br><br>
+      </label>
+    </div>
+
+    <div> 
+      <input type="submit" value="login"><br>
+    </div>
+  
+  </form><br>
+  
+  <a href="/new_user">New User? Click here</a>
+
+
+
+{% endblock %}
