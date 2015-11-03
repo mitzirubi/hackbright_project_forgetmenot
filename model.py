@@ -20,11 +20,11 @@ class User(db.Model):
 
     user_id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(75), nullable=False)
-    user_email = db.Column(db.String(100), nullable=True) #it will not be required 
+    user_email = db.Column(db.String(100), nullable=True)  # it will not be required
     profile_picture = db.Column(db.String(200), nullable=True)
-    access_token = db.Column(db.String(80), nullable=False) #true unless I create OAuth change in next table 
-    # client_id = db.Column(db.String(80), nullable=False)  # added this because of OAuth #delete this 
-    #need to drop table and readd 
+    access_token = db.Column(db.String(80), nullable=True)  # true unless I create OAuth change in next table
+    client_id = db.Column(db.String(80), nullable=True)  # added this because of OAuth making nullable true, can change
+                                                        # after project season
     def __repr__(self):
         """Provide helpful information about the user"""
 
@@ -48,9 +48,7 @@ class Place(db.Model):
     def __repr__(self):
         """Provide helpful information about the place."""
 
-        return ("<Place place_id=%s user_id=%s \
-                place_name=%s>") % (self.place_id,
-                                    self.user_id, self.place_name)
+        return ("<Place place_id=%s place_name=%s>") % (self.place_id, self.place_name)
 
 
 class LikedImage(db.Model):
@@ -63,19 +61,19 @@ class LikedImage(db.Model):
     place_id = db.Column(db.Integer, db.ForeignKey('Places.place_id'), nullable=False)
     liked_at = db.Column(db.DateTime, nullable=False, default=datetime.datetime.now())  # adding the exact time
     visited = db.Column(db.Boolean, default=False, nullable=False)   # the date you visitied the location true or false instead
-    image_url = db.Column(db.Text, nullable=False)
     user_note = db.Column(db.Text, nullable=True)
+    image_url = db.Column(db.Text, nullable=False)  # onlything we will get from API
 
     ##define relationsip of user to images
     user = db.relationship("User", backref=db.backref("likes", order_by=liked_image_id))
-    images = db.relationship("Images", backref=db.backref("likes", order_by=liked_image_id))
+    place = db.relationship("Place", backref=db.backref("likes", order_by=liked_image_id))
 
     def __repr__(self):
         """provide helpful information about restuarant and user information"""
 
-        return "<LikedImages user_id =%s place_id user_notes=%s>" % (self.user_id,
-                                                                     self.place_id,
-                                                                     self.user_notes)
+        return "<LikedImages user_id=%s place_id=%s user_note=%s>" % (self.user_id,
+                                                                      self.place_id,
+                                                                      self.user_note)
 
 
 class Category(db.Model):
@@ -83,7 +81,7 @@ class Category(db.Model):
 
     __tablename__ = "Categories"
 
-    category = db.Column(db.String(50), primary_key=True)  # CHANGED to text
+    category = db.Column(db.String(50), primary_key=True)  # increased string count
 
     def __repr__(self):
         """Provide helpful information about the image category"""
