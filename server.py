@@ -26,6 +26,49 @@ def welcome_page():
     return render_template("welcome.html")
 
 
+@app.route('/authentication')
+def user_authentication():
+    """This will prompt the user to authorize Forgetmenot to their IG account."""
+    pass
+
+@app.route('/register', methods=['GET'])
+def register_form():
+    """Show form for user signup."""
+
+    return render_template("registration_form.html")
+
+
+# @app.route('/register', methods=['POST'])
+# def register_process():
+#     """New user login information."""
+
+#     # Get form variables from form in POST request
+#     email = request.form['email']
+#     password = request.form['password']
+#     username = request.form['username']
+
+#     new_registered_user = User.query.filter_by(username=User.username).first()
+
+#     if not new_registered_user:
+#         flash("You first need to connect Forgetmenot to Instagram")
+#         return redirect("/welcome")
+#         #my OAuth will be in the welcome page!
+
+#     if new_registered_user.username == User.username:
+#         new_registered_user.password = password
+#         new_registered_user.email = email
+
+#         db.session.commit()
+
+#         session["user_id"] = user.user_id
+
+#         flash("Your username %s has been verified, %s and %s have been added to your profile.") % (username, email, password)
+#         return redirect('/myprofile')
+
+
+#Once user have authenticated and registerd their information then they can login
+#UPDATE Users SET user_email="email",user_password ="pw" Where user_id='id';
+#Added my information to debug route
 @app.route('/login', methods=['GET'])
 def login_form():
     """Show login form"""
@@ -40,6 +83,7 @@ def login_process():
     # Get form variables via POST request
     email = request.form["email"]
     password = request.form["password"]
+    username = request.form['username']
 
     user = User.query.filter_by(email=email).first()
 
@@ -57,36 +101,7 @@ def login_process():
     return redirect('/myprofile')
 
 
-@app.route('/new_user', methods=['GET'])
-def new_user_form():
-    """Show form for user signup."""
 
-    return render_template("new_user_form.html")
-
-
-@app.route('/new_user', methods=['POST'])
-def register_process():
-    """New user login information """
-
-    # Get form variables from form in POST request
-    email = request.form['email']
-    password = request.form['password']
-
-    new_user = User(email=email, password=password)
-
-    db.session.add(new_user)
-    db.session.commit()
-
-    flash("User %s added." % email)
-    return redirect("/")
-
-
-
-@app.route('/authentication')
-def user_authentication():
-    """This will prompt the user to authorize Forgetmenot to their IG account."""
-    if user:
-        session['']
 
 
 @app.route('/forgetmenot')
@@ -108,6 +123,8 @@ def favoritedinfo():
     """Shows a photo profile info, in our case all of the restaurant profile"""
     pass
 
+ #User.query.filter_by(user_id = #User id in the session right now ). pass the user to jinja
+  #
 
 @app.route('/mapmehere')
 def findmehere():
