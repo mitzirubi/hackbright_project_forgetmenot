@@ -1,5 +1,6 @@
 """ Forgetmenot Instagram likes"""
 
+
 from jinja2 import StrictUndefined
 
 from flask import Flask, render_template, redirect, request, flash, session
@@ -31,11 +32,13 @@ def user_authentication():
     """This will prompt the user to authorize Forgetmenot to their IG account."""
     pass
 
-@app.route('/register', methods=['GET'])
-def register_form():
-    """Show form for user signup."""
 
-    return render_template("registration_form.html")
+#this will be in optional user profile data!
+# @app.route('/register', methods=['GET'])
+# def register_form():
+#     """Show form for user signup."""
+
+#     return render_template("registration_form.html")
 
 
 # @app.route('/register', methods=['POST'])
@@ -80,11 +83,9 @@ def login_process():
 
     password = request.form["password"]
 
-    username = request.form['username']
-
     user = User.query.filter_by(username=username).first()
 
-    print "user", user
+    print user
 
     if not user:
         flash("User is not registered, please login with Instagram")
@@ -97,17 +98,18 @@ def login_process():
     session["user_id"] = user.user_id
 
     flash("Logged in")
-    return redirect('/forgetmenot')
+    return redirect('/forgetmenotfavorites')
 
 
+@app.route('/forgetmenotfavorites')
+def forgetmenotfavorites():
+    """Render all of the users favorited IG posts this is the main page."""
 
+    user_id = session["user_id"]
 
-
-@app.route('/forgetmenot')
-def forgetmenotfavorites(): # homepage.html
-    """Render all of the users favorited IG posts."""
-
-    return render_template('forgetmenotfavorites.html')
+    likedimages = LikedImage.query.filter_by(user_id=user_id).all()  # User id in the session right now ). pass the user to jinja
+                                                       #template = python
+    return render_template('forgetmenotfavorites.html', likedimages=likedimages)
 
 
 @app.route('/myprofile')
@@ -121,9 +123,6 @@ def show_user_profile():
 def favoritedinfo():
     """Shows a photo profile info, in our case all of the restaurant profile"""
     pass
-
- #User.query.filter_by(user_id = #User id in the session right now ). pass the user to jinja
-  #
 
 @app.route('/mapmehere')
 def findmehere():
