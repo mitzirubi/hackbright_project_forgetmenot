@@ -2,11 +2,14 @@
 <html>
 <head>
     <title> Forgetmenot </title>
+     <!-- Bootstrap -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+     <!-- my sttyle.css -->
+    <link href="/static/style.css" rel="stylesheet" type='text/css'>
 
-    <h1>Foregetmenot</h2>
-    
 </head>
 <body>
+    <h1>Foregetmenot</h2>
     <i>"For those likes you want to remember"<i>
     <hr> <!--horizontal row !--> 
    <strong>{% for message in get_flashed_messages() %}

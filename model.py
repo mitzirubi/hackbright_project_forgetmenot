@@ -66,8 +66,8 @@ class LikedImage(db.Model):
     image_url = db.Column(db.Text, nullable=False)  # onlything we will get from API
 
     ##define relationsip of user to images
-    user = db.relationship("User", backref=db.backref("likes", order_by=liked_image_id))
-    place = db.relationship("Place", backref=db.backref("likes", order_by=liked_image_id))
+    user = db.relationship("User", backref=db.backref("LikedImage", order_by=liked_image_id))
+    place = db.relationship("Place", backref=db.backref("LikedImage", order_by=liked_image_id))
 
     def __repr__(self):
         """provide helpful information about restuarant and user information"""

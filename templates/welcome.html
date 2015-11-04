@@ -2,11 +2,11 @@
 {% block content %}
 
 <title> Favorited Instagrams to remember </title> 
-  <div>
+<img src="https://s-media-cache-ak0.pinimg.com/236x/5b/27/73/5b27738f505ce8cc9038220971fdca3d.jpg" alt="mainpagephoto" style="width:300px;height:300px;">
+
+  <div >
     <h3>Returning user? </h3> 
   </div> 
-
- 
     Login here <strong><u> only</u> </strong> if your account has been authenticated already.  <br><br>
 
 
@@ -29,8 +29,19 @@
     </div>
   
   </form><br>
+
+<form action="/authentication" method="POST">
   
-  <a href="/new_user">New User? Click here</a>
+  <div >
+    <h3>New User? </h3> 
+  Sign up with Instagram
+  </div> 
+  <div> 
+      <input type="Sign in with Instagram" value="Authentication"><br>
+    </div>
+</form>
+  
+  <!--<a href="/new_user">New User? Click here</a> <br><br>-->
 
 
 

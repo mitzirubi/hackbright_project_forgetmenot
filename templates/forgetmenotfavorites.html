@@ -15,16 +15,31 @@
 
 
 <div>
-    <h2>Forgetmenot favorites</h2>
 
-    <ul>                <!--linkedimage = list !--> 
+    <h2>Forgetmenot favorites:</h2>
+
+    <table>   
+      
+                 <!--likedimage = list !--> 
     {% for image in likedimages %}
-        <li>                                   <!--grabbing attribute from object !--> 
-            <a href = "/forgetmenotfavorites/{{ image.liked_image_id }}">
-            <img src="{{ image.image_url }} "> </a>
-        </li>
+
+        <tr>                                   <!--grabbing attribute from object !--> 
+            <td><a href = "/favoritedinfo/{{ image.place.place_name }}">
+            <img class="likedimage" src="{{ image.image_url }} "> </a></td>
+            
+            <td> <a href = "/favoritedinfo/{{ image.place.place_name }}"> {{ image.place.place_name }}</a></td> 
+            
+
+            <td> <form action="/myprofile" method="POST"> 
+                        <label> Visitied? <!--enter checkbox here !--> 
+                            <input type="checkbox" name="Visited?" value="Yes">Yes
+                        </label>
+            </form></td>
+
+
+        </tr>
     {% endfor %}
-    </ul>
+    </table>
 </div>
 
 

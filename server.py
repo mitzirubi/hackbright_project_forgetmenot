@@ -129,7 +129,15 @@ def findmehere():
     """Displays all of users favorited IG posts in a map view"""
     pass
 
+
+# @app.route('/logout')
+#     """Displays all of users favorited IG posts in a map view"""
+#     pass
+
+
 ################################################################################
+
+
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the point
     # that we invoke the DebugToolbarExtension
