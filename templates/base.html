@@ -9,9 +9,9 @@
 <body>
     <i>"For those likes you want to remember"<i>
     <hr> <!--horizontal row !--> 
-    {% for message in get_flashed_messages() %}
-        {{ message }}  enables my flash messages 
-    {% endfor %}
+   <strong>{% for message in get_flashed_messages() %}
+        {{message}}  <!--enables my flash messages !--> 
+    {% endfor %} </strong> 
 
     {% block content %} 
 

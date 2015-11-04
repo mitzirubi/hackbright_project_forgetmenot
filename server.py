@@ -69,36 +69,35 @@ def register_form():
 #Once user have authenticated and registerd their information then they can login
 #UPDATE Users SET user_email="email",user_password ="pw" Where user_id='id';
 #Added my information to debug route
-@app.route('/login', methods=['GET'])
-def login_form():
-    """Show login form"""
-
-    return render_template('login_form.html')
 
 
-@app.route('/login', methods=['POST'])
+@app.route('/login_confirmation', methods=['POST'])
 def login_process():
     """Process login request"""
 
     # Get form variables via POST request
-    email = request.form["email"]
-    password = request.form["password"]
     username = request.form['username']
 
-    user = User.query.filter_by(email=email).first()
+    password = request.form["password"]
+
+    username = request.form['username']
+
+    user = User.query.filter_by(username=username).first()
+
+    print "user", user
 
     if not user:
-        flash("No such user")
-        return redirect("/login")
+        flash("User is not registered, please login with Instagram")
+        return redirect("/welcome")
 
-    if user.password != password:
-        flash("Incorrect password")
-        return redirect("/login")
+    if user.user_password != password:
+        flash("Incorrect username or password. Please try again!")
+        return redirect("/welcome")
 
     session["user_id"] = user.user_id
 
     flash("Logged in")
-    return redirect('/myprofile')
+    return redirect('/forgetmenot')
 
 
 

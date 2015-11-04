@@ -2,15 +2,19 @@
 {% block content %}
 
 <title> Favorited Instagrams to remember </title> 
+  <div>
+    <h3>Returning user? </h3> 
+  </div> 
 
-    <h2>Existing User? </h2> 
-    Login here <strong> only </strong> if your account has been authenticated already.  <br><br>
+ 
+    Login here <strong><u> only</u> </strong> if your account has been authenticated already.  <br><br>
 
-  <form action="/login" method="POST"> <!--this form can only be one method at a time so its "method" not "methods" -->
+
+  <form action="/login_confirmation" method="POST"> <!--this form can only be one method at a time so its "method" not "methods" -->
       
     <div>
-      <label>Email address:
-          <input type="text" name="email" placeholder="e-mail"><br>
+      <label>Username:
+          <input type="text" name="username" placeholder="username"><br>
       </label>
     </div>
 
