@@ -107,16 +107,35 @@ def forgetmenotfavorites():
 
     user_id = session["user_id"]
 
-    likedimages = LikedImage.query.filter_by(user_id=user_id).all()  # User id in the session right now ). pass the user to jinja
-                                                       #template = python
+    # User id in the session right now ). pass the user to jinja
+    likedimages = LikedImage.query.filter_by(user_id=user_id).all()
+
+                                                         #template = python
     return render_template('forgetmenotfavorites.html', likedimages=likedimages)
 
 
-@app.route('/myprofile')
+@app.route('/myprofile', methods=['GET', 'POST'])
 def show_user_profile():
     """Render the user profile and show their basic info and visited likes."""
 
-    return render_template('userprofile.html')
+    # visited = request.form.getlist('visited')
+    image_id_list = request.form.getlist('visited')
+    print '*****************\n \n \n'
+
+    print image_id_list
+
+    for image_id in image_id_list:
+
+        user_liked_image = LikedImage.query.filter(LikedImage.liked_image_id == image_id, LikedImage.user_id == 1).first()
+        print user_liked_image
+
+        user_liked_image.visited = True
+
+        test = user_liked_image.visited
+        print test
+    db.session.commit()
+
+    return render_template('userprofile.html', image_id_list=image_id_list)
 
 
 @app.route('/favoritedinfo')

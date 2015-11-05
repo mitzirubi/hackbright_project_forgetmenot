@@ -20,7 +20,11 @@
 
     <table>   
       
+    
                  <!--likedimage = list !--> 
+
+    <form action="/myprofile" method="POST">
+    <input type="submit" value="submit">
     {% for image in likedimages %}
 
         <tr>                                   <!--grabbing attribute from object !--> 
@@ -30,15 +34,21 @@
             <td> <a href = "/favoritedinfo/{{ image.place.place_name }}"> {{ image.place.place_name }}</a></td> 
             
 
-            <td> <form action="/myprofile" method="POST"> 
-                        <label> Visitied? <!--enter checkbox here !--> 
-                            <input type="checkbox" name="Visited?" value="Yes">Yes
+            <td> 
+                        <label> Visited? <!--enter checkbox here !--> 
+                            <input type="checkbox" name="visited" value="{{ image.liked_image_id  }}"
+                                {% if image.visited %} checked 
+                                {% endif %}> Yes
+
+                            
                         </label>
-            </form></td>
+
+           </td>
 
 
         </tr>
     {% endfor %}
+     </form>
     </table>
 </div>
 

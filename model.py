@@ -20,9 +20,9 @@ class User(db.Model):
 
     user_id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(75), nullable=False)
-    user_email = db.Column(db.String(100), nullable=True)  # it will not be required
+    user_email = db.Column(db.String(100), nullable=True)
     profile_picture = db.Column(db.String(200), nullable=True)
-    access_token = db.Column(db.String(80), nullable=True)  # true unless I create OAuth change in next table
+    access_token = db.Column(db.String(80), nullable=True)
     client_id = db.Column(db.String(80), nullable=True)  # added this because of OAuth making nullable true, can change after project season
     user_password = db.Column(db.String(40), nullable=True)
 
@@ -40,7 +40,7 @@ class Place(db.Model):
     __tablename__ = "Places"
 
     place_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    place_name = db.Column(db.String(200), nullable=True)  # because some photos may not have locations
+    place_name = db.Column(db.String(200), nullable=True)  # some photos may not have locations
     category = db.Column(db.String(50), db.ForeignKey('Categories.category'))
     latitude = db.Column(db.Integer, nullable=False)   # location of place
     longitude = db.Column(db.Integer, nullable=False)
@@ -60,10 +60,10 @@ class LikedImage(db.Model):
     liked_image_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('Users.user_id'), nullable=False)
     place_id = db.Column(db.Integer, db.ForeignKey('Places.place_id'), nullable=False)
-    liked_at = db.Column(db.DateTime, nullable=False, default=datetime.datetime.now())  # adding the exact time
-    visited = db.Column(db.Boolean, default=False, nullable=False)   # the date you visitied the location true or false instead
+    liked_at = db.Column(db.DateTime, nullable=False, default=datetime.datetime.now())
+    visited = db.Column(db.Boolean, default=False, nullable=False)
     user_note = db.Column(db.Text, nullable=True)
-    image_url = db.Column(db.Text, nullable=False)  # onlything we will get from API
+    image_url = db.Column(db.Text, nullable=False)
 
     ##define relationsip of user to images
     user = db.relationship("User", backref=db.backref("LikedImage", order_by=liked_image_id))
