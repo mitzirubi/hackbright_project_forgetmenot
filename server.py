@@ -138,8 +138,13 @@ def show_user_profile():
     username = user.username
     profile_picture = user.profile_picture
 
+    visited =LikedImage.query.filter_by(user_id=session['user_id'], visited=True).count()
+
+
+
+
     return render_template('userprofile.html', image_id_list=image_id_list, username=username,
-                            profile_picture=profile_picture)
+                            profile_picture=profile_picture, user=user, visited=visited)
 
 
 @app.route('/favoritedinfo')

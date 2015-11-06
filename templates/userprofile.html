@@ -1,20 +1,51 @@
 {% extends 'base.html' %}
 {% block content %}
 
-    <h1>My Profile  </h1>
+    <h1>My Profile  </h1> <br>
   
+     <h3> Welcome:  <strong> {{ username }} </strong><br> </h3>
+
     {% if session['user_id'] %}
 
       <img src = "{{ profile_picture }}"> 
-      {{ username }}
+     {% endif %}
+
     <h3>Places Visited: </h3>
    
-   
-
-    ##backref to get user likes and the visited 
     
-    </ul>
-  {% endif %}
+    I have visited: <strong> {{ visited }} </strong> of  <strong>{{ user.LikedImage|count }} </strong> Places
+
+    <table>
+        {% for image in user.LikedImage %}
+            {% if image.visited %}
+               <tr>                            <!--grabbing attribute from object !--> 
+                    <td>
+                        <a href = "/favoritedinfo/{{ image.place.place_name }}">
+                        <img class="likedimage" src="{{ image.image_url }} "> </a>
+                    </td>
+                    
+                    <td> 
+                        <a href = "/favoritedinfo/{{ image.place.place_name }}"> 
+                            {{ image.place.place_name }}</a>
+                    </td> 
+                    
+
+                    <td> 
+                        <label> Visited? <!--enter checkbox here !--> 
+                            <input type="checkbox" name="visited" value="{{ image.liked_image_id  }}"
+                                
+                                {% if image.visited %} checked 
+                                
+                                {% endif %}> Yes
+                        </label>
+                    </td>
+                </tr>
+            
+        {% endif %}
+    {% endfor %} </table>
+
+
   <a href="/forgetmenotfavorites"> Back to Forgetmenot Favorites</a>
 
 {% endblock %}
+
