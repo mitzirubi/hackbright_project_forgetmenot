@@ -1,16 +1,20 @@
 {% extends 'base.html' %}
 {% block content %}
 
-    <h1>My Profile</h1>
+    <h1>My Profile  </h1>
   
+    {% if session['user_id'] %}
+
+      <img src = "{{ profile_picture }}"> 
+      {{ username }}
+    <h3>Places Visited: </h3>
    
-    {{ for visit in visited }}
+   
 
-
+    ##backref to get user likes and the visited 
     
-
-    {% endfor %}
-  
-  <a href="/forgetmenotfavorites"> Forgetmenot Favorites</a>
+    </ul>
+  {% endif %}
+  <a href="/forgetmenotfavorites"> Back to Forgetmenot Favorites</a>
 
 {% endblock %}

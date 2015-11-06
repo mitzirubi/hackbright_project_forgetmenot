@@ -120,8 +120,6 @@ def show_user_profile():
 
     # visited = request.form.getlist('visited')
     image_id_list = request.form.getlist('visited')
-    print '*****************\n \n \n'
-
     print image_id_list
 
     for image_id in image_id_list:
@@ -131,11 +129,17 @@ def show_user_profile():
 
         user_liked_image.visited = True
 
-        test = user_liked_image.visited
-        print test
+        # test = user_liked_image.visited
+        # print test
     db.session.commit()
 
-    return render_template('userprofile.html', image_id_list=image_id_list)
+    user = User.query.filter_by(user_id=session['user_id']).first()
+
+    username = user.username
+    profile_picture = user.profile_picture
+
+    return render_template('userprofile.html', image_id_list=image_id_list, username=username,
+                            profile_picture=profile_picture)
 
 
 @app.route('/favoritedinfo')

@@ -2,15 +2,15 @@
 {% block content %}
 
 <div>
-    <h2>{{ image.liked_image_id }} </h2>
+    <h2>  </h2>
 
     <ul>                <!--linkedimage = list !--> 
-    {% for id in likedimages.like %}
+    
         <li>                                   <!--grabbing attribute from object !--> 
             <a href = "/forgetmenotfavorites/{{ image.liked_image_id }}">
             <img src="{{ image.image_url }} "> </a>
         </li>
-    {% endfor %}
+    
     </ul>
 </div>
 
