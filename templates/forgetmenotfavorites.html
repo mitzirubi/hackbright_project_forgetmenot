@@ -7,9 +7,6 @@
 <h2>My Profile</h2>
 <p><a href="/myprofile">View my profile</a></p>
 
-<h2>Favorited image profile </h2>
-<p><a href="/favoritedinfo">Learn more about the post</a></p>
-
 <h2>Forgetmenot Map</h2>
 <p><a href="/mapmehere">Find your favorite post on the map!</a></p>
 
@@ -24,7 +21,7 @@
 
     <form action="/myprofile" method="POST">
         <input type="submit" value="submit">
-
+   
     {% for image in likedimages %}
 
         <tr>                            <!--grabbing attribute from object !--> 

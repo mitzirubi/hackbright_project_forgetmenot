@@ -110,8 +110,9 @@ def forgetmenotfavorites():
     # User id in the session right now ). pass the user to jinja
     likedimages = LikedImage.query.filter_by(user_id=user_id).all()
 
+
                                                          #template = python
-    return render_template('forgetmenotfavorites.html', likedimages=likedimages)
+    return render_template('forgetmenotfavorites.html', likedimages=likedimages )
 
 
 @app.route('/myprofile', methods=['GET', 'POST'])
@@ -138,19 +139,24 @@ def show_user_profile():
     username = user.username
     profile_picture = user.profile_picture
 
-    visited =LikedImage.query.filter_by(user_id=session['user_id'], visited=True).count()
-
-
-
+    visited = LikedImage.query.filter_by(user_id=session['user_id'], visited=True).count()
 
     return render_template('userprofile.html', image_id_list=image_id_list, username=username,
-                            profile_picture=profile_picture, user=user, visited=visited)
+                           profile_picture=profile_picture, user=user, visited=visited)
 
 
-@app.route('/favoritedinfo')
+@app.route('/likedimageinfo')
 def favoritedinfo():
     """Shows a photo profile info, in our case all of the restaurant profile"""
-    pass
+
+    place_info = Place.query.filter_by(place_id=place_id).all()
+
+    place_id  = Place.place_id
+    place_name = Place.place_name
+    latitude = Place.latitude
+    longitude = Place.longitude
+
+
 
 @app.route('/mapmehere')
 def findmehere():
