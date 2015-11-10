@@ -3,7 +3,7 @@
 
 from jinja2 import StrictUndefined
 
-from flask import Flask, render_template, redirect, request, flash, session
+from flask import Flask, render_template, redirect, request, flash, session, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
 
 from model import Place, User, LikedImage, Category, connect_to_db, db
@@ -152,10 +152,10 @@ def likedimageinfo(place_id):
     place_info = Place.query.filter_by(place_id=place_id).first()
     print place_info
 
-    place_id  = Place.place_id
-    place_name = Place.place_name
-    latitude = Place.latitude
-    longitude = Place.longitude
+    place_id  = place_info.place_id
+    place_name = place_info.place_name
+    latitude = place_info.latitude
+    longitude = place_info.longitude
 
     # image = LikedImage.query.filter_by(LikedImage.image_url == )
 
@@ -165,8 +165,11 @@ def likedimageinfo(place_id):
 @app.route('/usernotes.json', methods=["POST"])
 def update_user_notes():
     # save the new user notes in DB
+    print "*** GOT HERE"
     user_notes_text = request.form.get('user_notes')
-    print '\n\n\n\n', user_notes_text, '\n\n\n\n'
+    placeId = request.form.get('placeId')
+
+    print '\n\n\n\n', user_notes_text, placeId, '\n\n\n\n'
     return jsonify({'save': 'successful'})
 
 
