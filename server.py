@@ -145,17 +145,29 @@ def show_user_profile():
                            profile_picture=profile_picture, user=user, visited=visited)
 
 
-@app.route('/likedimageinfo')
-def favoritedinfo():
+@app.route("/likedimageinfo/<int:place_id>", methods=['GET'])
+def likedimageinfo(place_id):
     """Shows a photo profile info, in our case all of the restaurant profile"""
 
-    place_info = Place.query.filter_by(place_id=place_id).all()
+    place_info = Place.query.filter_by(place_id=place_id).first()
+    print place_info
 
     place_id  = Place.place_id
     place_name = Place.place_name
     latitude = Place.latitude
     longitude = Place.longitude
 
+    # image = LikedImage.query.filter_by(LikedImage.image_url == )
+
+    return render_template("likedimageinfo.html", place_id=place_id, place_name=place_name,
+                           latitude=latitude, longitude=longitude, place_info=place_info)
+
+@app.route('/usernotes.json', methods=["POST"])
+def update_user_notes():
+    # save the new user notes in DB
+    user_notes_text = request.form.get('user_notes')
+    print '\n\n\n\n', user_notes_text, '\n\n\n\n'
+    return jsonify({'save': 'successful'})
 
 
 @app.route('/mapmehere')

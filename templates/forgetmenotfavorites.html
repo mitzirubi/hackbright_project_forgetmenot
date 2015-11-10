@@ -25,11 +25,11 @@
     {% for image in likedimages %}
 
         <tr>                            <!--grabbing attribute from object !--> 
-            <td><a href = "/favoritedinfo/{{ image.place.place_name }}">
+            <td><a href = "/likedimageinfo/{{ image.place.place_id }}">
             <img class="likedimage" src="{{ image.image_url }} "> </a></td>
             
             <td> 
-                <a href = "/favoritedinfo/{{ image.place.place_name }}"> 
+                <a href = "/likedimageinfo/{{ image.place.place_id }}"> 
                     {{ image.place.place_name }}</a></td> 
             
 
