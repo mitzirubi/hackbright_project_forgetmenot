@@ -76,7 +76,6 @@ class LikedImage(db.Model):
                                                                       self.place_id,
                                                                       self.user_note)
 
-
 class Category(db.Model):
     """Catergorize IG Photos"""
 
@@ -97,8 +96,7 @@ def connect_to_db(app):
     """Connect the database to our Flask app."""
 
     # Configure to use our SQLite database (app is an instance and config is a dictionary)
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///forgetmenot.db'   # created a new db link
-    app.config['SQLALCHEMY_ECHO'] = True
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///forgetmenot.db'  
     db.app = app
     db.init_app(app)
 

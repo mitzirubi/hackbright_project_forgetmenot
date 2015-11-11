@@ -149,34 +149,69 @@ def show_user_profile():
 def likedimageinfo(place_id):
     """Shows a photo profile info, in our case all of the restaurant profile"""
 
-    place_info = Place.query.filter_by(place_id=place_id).first()
-    print place_info
+    likedimage = LikedImage.query.filter_by(place_id=place_id, user_id=session['user_id']).first()
+    print likedimage.place
 
-    place_id  = place_info.place_id
-    place_name = place_info.place_name
-    latitude = place_info.latitude
-    longitude = place_info.longitude
 
-    # image = LikedImage.query.filter_by(LikedImage.image_url == )
+    place_id  = likedimage.place.place_id
+    print place_id
+    place_name = likedimage.place.place_name
+    latitude = likedimage.place.latitude
+    longitude = likedimage.place.longitude
+    user_note = likedimage.user_note
+
 
     return render_template("likedimageinfo.html", place_id=place_id, place_name=place_name,
-                           latitude=latitude, longitude=longitude, place_info=place_info)
+                           latitude=latitude, longitude=longitude, place_info=likedimage.place,
+                           user_note=user_note)
 
 @app.route('/usernotes.json', methods=["POST"])
 def update_user_notes():
     # save the new user notes in DB
     print "*** GOT HERE"
-    user_notes_text = request.form.get('user_notes')
-    placeId = request.form.get('placeId')
+    user_note = request.form.get('user_notes')
+    place_id = request.form.get('placeId')
 
-    print '\n\n\n\n', user_notes_text, placeId, '\n\n\n\n'
+    print '\n\n\n\n', user_note, place_id, '\n\n\n\n'
+
+
+    user_id = session.get("user_id")
+
+    print '\n\n\n\n', user_id, '\n\n\n\n'
+
+    if not user_id:
+        flash("User not logged in.")
+        return redirect("/welcome")
+
+    else:                                           #model=server route 
+        print place_id
+        get_likedImage = LikedImage.query.filter_by(user_id=user_id,place_id=place_id).first()
+        print get_likedImage ##incorrect place id is shown here and committed
+        print place_id
+        get_likedImage.user_note = user_note
+        print get_likedImage
+
+        db.session.commit()
+
     return jsonify({'save': 'successful'})
+
+
+@app.route('/display_user_notes/<int:place_id>.json')
+def getusernotes(place_id):
+
+    notes = LikedImage.query.filter_by(user_id=session['user_id'], place_id=place_id).first()
+    print notes
+    user_note = {'user_id': session['user_id'], 'place_id': place_id, 'user_note': notes.user_note}
+    print user_note
+    display_notes = jsonify(user_note)
+    return display_notes
 
 
 @app.route('/mapmehere')
 def findmehere():
     """Displays all of users favorited IG posts in a map view"""
-    pass
+
+    return render_template('mapmehere.html')
 
 
 # @app.route('/logout')
