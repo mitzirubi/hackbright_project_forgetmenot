@@ -1,11 +1,13 @@
 {% extends 'base.html' %}
 {% block content %}
 
-
+<form action="/logout" method="POST">
+        <input type="submit" value="logout">
+</form>
 <!--my profile a header option , image profile will be links when user clicks photo !-->  
 <!--map option will be at the top as well as a home button page !--> 
-<h2>My Profile</h2>
-<p><a href="/myprofile">View my profile</a></p>
+<h2>Places Visited</h2>
+<p><a href="/placesvisited">locations off my list</a></p>
 
 <h2>Forgetmenot Map</h2>
 <p><a href="/mapmehere">Find your favorite post on the map!</a></p>
@@ -19,7 +21,7 @@
       
                  <!--likedimage = list !--> 
 
-    <form action="/myprofile" method="POST">
+    <form action="/placesvisited" method="POST">
         <input type="submit" value="submit">
    
     {% for image in likedimages %}

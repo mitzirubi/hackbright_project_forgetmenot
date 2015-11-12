@@ -66,7 +66,7 @@ def user_authentication():
 #         session["user_id"] = user.user_id
 
 #         flash("Your username %s has been verified, %s and %s have been added to your profile.") % (username, email, password)
-#         return redirect('/myprofile')
+#         return redirect('/placesvisited')
 
 
 #Once user have authenticated and registerd their information then they can login
@@ -100,6 +100,14 @@ def login_process():
     flash("Logged in")
     return redirect('/forgetmenotfavorites')
 
+@app.route('/logout', methods=['POST'])
+def logout():
+    """Log out."""
+
+    del session["user_id"]
+    flash("Thanks for stopping by, we hope to see you again!")
+    return redirect("/welcome")
+
 
 @app.route('/forgetmenotfavorites')
 def forgetmenotfavorites():
@@ -112,10 +120,10 @@ def forgetmenotfavorites():
 
 
                                                          #template = python
-    return render_template('forgetmenotfavorites.html', likedimages=likedimages )
+    return render_template('forgetmenotfavorites.html', likedimages=likedimages)
 
 
-@app.route('/myprofile', methods=['GET', 'POST'])
+@app.route('/placesvisited', methods=['GET', 'POST'])
 def show_user_profile():
     """Render the user profile and show their basic info and visited likes."""
 
@@ -141,7 +149,7 @@ def show_user_profile():
 
     visited = LikedImage.query.filter_by(user_id=session['user_id'], visited=True).count()
 
-    return render_template('userprofile.html', image_id_list=image_id_list, username=username,
+    return render_template('placesvisited.html', image_id_list=image_id_list, username=username,
                            profile_picture=profile_picture, user=user, visited=visited)
 
 
@@ -150,7 +158,7 @@ def likedimageinfo(place_id):
     """Shows a photo profile info, in our case all of the restaurant profile"""
 
     likedimage = LikedImage.query.filter_by(place_id=place_id, user_id=session['user_id']).first()
-    print likedimage.place
+    print likedimage
 
 
     place_id  = likedimage.place.place_id
@@ -159,10 +167,11 @@ def likedimageinfo(place_id):
     latitude = likedimage.place.latitude
     longitude = likedimage.place.longitude
     user_note = likedimage.user_note
+    visited = likedimage.visited
 
 
     return render_template("likedimageinfo.html", place_id=place_id, place_name=place_name,
-                           latitude=latitude, longitude=longitude, place_info=likedimage.place,
+                           latitude=latitude, longitude=longitude, place_info=likedimage.place, visited=visited,
                            user_note=user_note)
 
 @app.route('/usernotes.json', methods=["POST"])
@@ -183,7 +192,7 @@ def update_user_notes():
         flash("User not logged in.")
         return redirect("/welcome")
 
-    else:                                           #model=server route 
+    else:                                           #model=server route
         print place_id
         get_likedImage = LikedImage.query.filter_by(user_id=user_id,place_id=place_id).first()
         print get_likedImage ##incorrect place id is shown here and committed
@@ -212,6 +221,33 @@ def findmehere():
     """Displays all of users favorited IG posts in a map view"""
 
     return render_template('mapmehere.html')
+
+@app.route('/photo_info.json')
+def photo_info():
+    """JSON information about photo and place details."""
+
+    list_of_liked_objects = db.session.query(LikedImage, Place).filter_by(user_id=session['user_id']).join(Place).all()
+
+    list_of_places = []
+
+    for image, place in list_of_liked_objects:
+                        #key/value
+        place_info = {
+                "placeId": place.place_id,
+                "placeName": place.place_name,
+                "category": place.category,
+                "latitude": place.latitude,
+                "longitude": place.longitude,
+                "igPlaceId": place.instagram_place_id,
+                "imageUrl": image.image_url,
+                "visited": image.visited
+            }
+
+        list_of_places.append(place_info)
+
+    places_dict = {'places': list_of_places}
+
+    return jsonify(places_dict)
 
 
 # @app.route('/logout')
