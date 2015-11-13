@@ -17,25 +17,25 @@
 
     <h2>Forgetmenot favorites:</h2>
 
-    <table>   
+      
       
                  <!--likedimage = list !--> 
 
-    <form action="/placesvisited" method="POST">
-        <input type="submit" value="submit">
+    <form  id="visited-validation-form" action="/placesvisited" method="POST">
+        <input type="hidden" value="checked">
    
     {% for image in likedimages %}
-
-        <tr>                            <!--grabbing attribute from object !--> 
-            <td><a href = "/likedimageinfo/{{ image.place.place_id }}">
+            <input type="hidden" name="place_id" value="{{ image.place.place_id }}">
+                                  <!--grabbing attribute from object !--> 
+            <a href = "/likedimageinfo/{{ image.place.place_id }}">
             <img class="likedimage" src="{{ image.image_url }} "> </a></td>
             
-            <td> 
+             
                 <a href = "/likedimageinfo/{{ image.place.place_id }}"> 
                     {{ image.place.place_name }}</a></td> 
             
 
-            <td> 
+            
                 <label> Visited? <!--enter checkbox here !--> 
                     <input type="checkbox" name="visited" value="{{ image.liked_image_id  }}"
                         {% if image.visited %} checked 
@@ -44,16 +44,24 @@
                     
                 </label>
 
-           </td>
+          
 
 
-        </tr>
+        
     {% endfor %}
      </form>
-    </table>
+    <script>
+
+    $('#visited-validation-form input[type=checkbox]').on('click', submitMyForm);
+
+    function submitMyForm() {
+        alert("Visited places updated!")
+        $('#visited-validation-form').submit();
+    }
+
+    </script> 
+   
 </div>
-
-
 
 
 

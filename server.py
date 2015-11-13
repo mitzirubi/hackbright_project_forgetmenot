@@ -128,15 +128,22 @@ def show_user_profile():
     """Render the user profile and show their basic info and visited likes."""
 
     # visited = request.form.getlist('visited')
-    image_id_list = request.form.getlist('visited')
-    print image_id_list
+    image_id_set = set(request.form.getlist('visited'))
+    place_id_list = request.form.getlist('place_id')
+    print place_id_list
 
-    for image_id in image_id_list:
+    for place_id in place_id_list:
 
-        user_liked_image = LikedImage.query.filter(LikedImage.liked_image_id == image_id, LikedImage.user_id == 1).first()
-        print user_liked_image
+        user_liked_image = LikedImage.query.filter(LikedImage.place_id == place_id,
+                                                   LikedImage.user_id == session['user_id']).first()
 
-        user_liked_image.visited = True
+        if place_id in image_id_set:
+
+            user_liked_image.visited = True
+
+        else:
+
+            user_liked_image.visited = False
 
         # test = user_liked_image.visited
         # print test
@@ -149,7 +156,7 @@ def show_user_profile():
 
     visited = LikedImage.query.filter_by(user_id=session['user_id'], visited=True).count()
 
-    return render_template('placesvisited.html', image_id_list=image_id_list, username=username,
+    return render_template('placesvisited.html', username=username,
                            profile_picture=profile_picture, user=user, visited=visited)
 
 
@@ -240,7 +247,8 @@ def photo_info():
                 "longitude": place.longitude,
                 "igPlaceId": place.instagram_place_id,
                 "imageUrl": image.image_url,
-                "visited": image.visited
+                "visited": image.visited,
+                "user_note": image.user_note
             }
 
         list_of_places.append(place_info)
