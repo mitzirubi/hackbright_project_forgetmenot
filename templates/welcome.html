@@ -1,48 +1,56 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<title> Favorited Instagrams to remember </title> 
-<img src="https://s-media-cache-ak0.pinimg.com/236x/5b/27/73/5b27738f505ce8cc9038220971fdca3d.jpg" alt="mainpagephoto" style="width:300px;height:300px;">
+<div>
+    <title> Favorited Instagrams to remember </title> 
+</div>
 
-  <div >
+<div>
+    <img src="https://s-media-cache-ak0.pinimg.com/236x/5b/27/73/5b27738f505ce8cc9038220971fdca3d.jpg" alt="mainpagephoto" style="width:300px;height:300px;">
+</div>
+
+<div>
     <h3>Returning user? </h3> 
-  </div> 
-    Login here <strong><u> only</u> </strong> if your account has been authenticated already.  <br><br>
 
+    <p> Login here <strong><u>only</u></strong> if your account has been authenticated already.</p><br><br>
 
-  <form action="/login_confirmation" method="POST"> <!--this form can only be one method at a time so its "method" not "methods" -->
+    <form action="/login_confirmation" method="POST"> 
       
-    <div>
-      <label>Username:
-          <input type="text" name="username" placeholder="username"><br>
-      </label>
-    </div>
+        <div>
+            <label>Username:
+                <input type="text" name="username" placeholder="username"><br>
+            </label>
+        </div>
 
-    <div>
-      <label>password
-          <input type="password" name="password" placeholder="password"><br><br>
-      </label>
-    </div>
+        <div>
+          <label>password
+              <input type="password" name="password" placeholder="password"><br><br>
+          </label>
+        </div>
 
+        <div> 
+          <input type="submit" value="login"><br>
+        </div>
+
+    </form><br>
+</div>
+
+<div>
+  <form action="/authentication" method="POST">
+    
+    <div >
+        <h3>New User? </h3> 
+        <p>Sign up with Instagram</p>
+    </div> 
+   
     <div> 
-      <input type="submit" value="login"><br>
+        <input type="Sign in with Instagram" value="Authentication"><br>
     </div>
   
-  </form><br>
-
-<form action="/authentication" method="POST">
-  
-  <div >
-    <h3>New User? </h3> 
-  Sign up with Instagram
-  </div> 
-  <div> 
-      <input type="Sign in with Instagram" value="Authentication"><br>
-    </div>
-</form>
+  </form>
+</div>
   
   <!--<a href="/new_user">New User? Click here</a> <br><br>-->
-
 
 
 {% endblock %}

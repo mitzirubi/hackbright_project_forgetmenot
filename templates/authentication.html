@@ -2,15 +2,18 @@
 {% block content %}
 
     <h1>Login with Instagram</h1>
-  <form action="/authentication" method="POST"> <!--this form can only be one method at a time so its "method" not "methods" -->
+  <form action="/authentication" method="POST"> 
       <label>Email address:
           <input type="text" name="email" placeholder="e-mail"><br>
       </label>
+
       <label>password
           <input type="password" name="password" placeholder="password"><br><br>
       </label>
+
       <input type="submit" value="login!"><br>
   </form><br>
+  
   <a href="/new_user">New User? Click here</a>
 
 {% endblock %}

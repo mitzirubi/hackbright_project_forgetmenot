@@ -97,7 +97,7 @@ def login_process():
 
     session["user_id"] = user.user_id
 
-    flash("Logged in")
+    flash("Welcome, you are now logged in.")
     return redirect('/forgetmenotfavorites')
 
 @app.route('/logout', methods=['POST'])

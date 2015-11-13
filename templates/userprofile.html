@@ -1,21 +1,28 @@
 {% extends 'base.html' %}
 {% block content %}
 
+<div>
     <h1>My Profile  </h1> <br>
-  
-     <h3> Welcome:  <strong> {{ username }} </strong><br> </h3>
+</div>
 
+<div>
+    <h3> Welcome:  <strong> {{ username }} </strong><br></h3>
+</div>
+
+<div>
     {% if session['user_id'] %}
+        <img src = "{{ profile_picture }}"> <br><br>
+    {% endif %}
+</div>
 
-      <img src = "{{ profile_picture }}"> <br><br>
-     {% endif %}
-
-
+<div>
     <a href="/forgetmenotfavorites"> Back to Forgetmenot Favorites</a>
-    
+</div>
+
+<div>
     <h3>Places Visited: </h3>
    
-    I have visited: <strong> {{ visited }} </strong> of  <strong>{{ user.LikedImage|count }} </strong> Places <br>
+    <p> I have visited: <strong> {{ visited }} </strong> of  <strong>{{ user.LikedImage|count }} </strong> Places </p><br> 
 
     <table>
         {% for image in user.LikedImage %}
@@ -28,7 +35,7 @@
                     
                     <td> 
                         <a href = "/likedimageinfo/{{ image.place.place_id }}"> 
-                            {{ image.place.place_name }}</a>
+                        {{ image.place.place_name }}</a>
                     </td> 
                     
                     <td> 
@@ -41,10 +48,8 @@
                         </label>
                     </td>
                 </tr>
-            
-        {% endif %}
-    {% endfor %} </table>
-
+            {% endif %}
+        {% endfor %} </table>
 
 
 {% endblock %}

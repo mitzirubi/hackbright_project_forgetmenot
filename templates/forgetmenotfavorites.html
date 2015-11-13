@@ -4,9 +4,11 @@
 <form action="/logout" method="POST">
         <input type="submit" value="logout">
 </form>
+
 <!--my profile a header option , image profile will be links when user clicks photo !-->  
 <!--map option will be at the top as well as a home button page !--> 
-<h2>Places Visited</h2>
+
+<h2>Visited Locations</h2>
 <p><a href="/placesvisited">locations off my list</a></p>
 
 <h2>Forgetmenot Map</h2>
@@ -14,42 +16,36 @@
 
 
 <div>
-
-    <h2>Forgetmenot favorites:</h2>
-
-      
-      
-                 <!--likedimage = list !--> 
+    <h2>Forgetmenot favorited photos:</h2>
+                <!--likedimage = list !--> 
 
     <form  id="visited-validation-form" action="/placesvisited" method="POST">
         <input type="hidden" value="checked">
    
     {% for image in likedimages %}
-            <input type="hidden" name="place_id" value="{{ image.place.place_id }}">
-                                  <!--grabbing attribute from object !--> 
-            <a href = "/likedimageinfo/{{ image.place.place_id }}">
-            <img class="likedimage" src="{{ image.image_url }} "> </a></td>
-            
-             
-                <a href = "/likedimageinfo/{{ image.place.place_id }}"> 
-                    {{ image.place.place_name }}</a></td> 
-            
-
-            
-                <label> Visited? <!--enter checkbox here !--> 
-                    <input type="checkbox" name="visited" value="{{ image.liked_image_id  }}"
-                        {% if image.visited %} checked 
-                        {% endif %}> Yes
-
-                    
-                </label>
-
-          
-
-
         
+        <input type="hidden" name="place_id" value="{{ image.place.place_id }}">
+                    
+                    <!--grabbing attribute from object !--> 
+        <a href = "/likedimageinfo/{{ image.place.place_id }}">
+        
+        <img class="likedimage" src="{{ image.image_url }} "> </a></td>
+        
+        <a href = "/likedimageinfo/{{ image.place.place_id }}"> 
+            {{ image.place.place_name }}</a></td> 
+        
+        <!--Input checkbox of places user has visited !--> 
+        <label> Visited? 
+            <input type="checkbox" name="visited" value="{{ image.liked_image_id }}"
+                {% if image.visited %} checked 
+                {% endif %}> Yes
+        </label>
+
     {% endfor %}
-     </form>
+
+    </form>
+    
+    <!--Submitting form via JS !--> 
     <script>
 
     $('#visited-validation-form input[type=checkbox]').on('click', submitMyForm);
@@ -62,8 +58,5 @@
     </script> 
    
 </div>
-
-
-
 
 {% endblock %}
