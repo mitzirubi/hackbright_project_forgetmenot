@@ -20,25 +20,29 @@
                 <!--likedimage = list !--> 
 
     <form  id="visited-validation-form" action="/placesvisited" method="POST">
-        <input type="hidden" value="checked">
+        
    
     {% for image in likedimages %}
         
-        <input type="hidden" name="place_id" value="{{ image.place.place_id }}">
-                    
-                    <!--grabbing attribute from object !--> 
+        <!--grabbing attribute from object, and links to place profile !--> 
         <a href = "/likedimageinfo/{{ image.place.place_id }}">
         
         <img class="likedimage" src="{{ image.image_url }} "> </a></td>
         
         <a href = "/likedimageinfo/{{ image.place.place_id }}"> 
-            {{ image.place.place_name }}</a></td> 
-        
-        <!--Input checkbox of places user has visited !--> 
+            {{ image.place.place_name }} </a></td> 
+
+        Location:{{ image.place.latitude }} {{ image.place.longitude }}
+    
+        <!--Input changed to radio of places user has visited !--> 
         <label> Visited? 
-            <input type="checkbox" name="visited" value="{{ image.liked_image_id }}"
-                {% if image.visited %} checked 
-                {% endif %}> Yes
+            <p>
+                {{ image.place.place_id }}
+             <input type="radio" name="{{ image.place.place_id }}" value="yes"
+             {% if image.visited %} checked 
+                {% endif %}>Yes
+             <input type="radio" name="{{ image.place.place_id }}" value="no">No
+            </p>
         </label>
 
     {% endfor %}
@@ -48,7 +52,7 @@
     <!--Submitting form via JS !--> 
     <script>
 
-    $('#visited-validation-form input[type=checkbox]').on('click', submitMyForm);
+    $('#visited-validation-form input[type=radio]').on('click', submitMyForm);
 
     function submitMyForm() {
         alert("Visited places updated!")

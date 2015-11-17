@@ -115,7 +115,7 @@ def forgetmenotfavorites():
 
     user_id = session["user_id"]
 
-    # User id in the session right now ). pass the user to jinja
+    # User id in the session right now pass the user to jinja
     likedimages = LikedImage.query.filter_by(user_id=user_id).all()
 
 
@@ -128,25 +128,22 @@ def show_user_profile():
     """Render the user profile and show their basic info and visited likes."""
 
     # visited = request.form.getlist('visited')
-    image_id_set = set(request.form.getlist('visited'))
-    place_id_list = request.form.getlist('place_id')
-    print place_id_list
+    # all_user_visited_place_ids = request.form.getlist('visited')  # image ids of places visited
+    print request.form
+    for place_id in request.form.keys():
+        for value in request.form.getlist(place_id):
 
-    for place_id in place_id_list:
+            print place_id, ":", value
+        
+        user_liked_image = LikedImage.query.filter(LikedImage.place_id ==place_id, LikedImage.user_id == session['user_id']).all()
 
-        user_liked_image = LikedImage.query.filter(LikedImage.place_id == place_id,
-                                                   LikedImage.user_id == session['user_id']).first()
-
-        if place_id in image_id_set:
-
-            user_liked_image.visited = True
-
+        if request.form.get(place_id) == "no":
+            for liked_image in user_liked_image:
+                liked_image.visited = False
         else:
+            for liked_image in user_liked_image:
+                liked_image.visited = True
 
-            user_liked_image.visited = False
-
-        # test = user_liked_image.visited
-        # print test
     db.session.commit()
 
     user = User.query.filter_by(user_id=session['user_id']).first()
@@ -156,8 +153,16 @@ def show_user_profile():
 
     visited = LikedImage.query.filter_by(user_id=session['user_id'], visited=True).count()
 
+    liked_visited_images = LikedImage.query.filter_by(user_id=session['user_id'], visited=True).all()
+
+    # make a unique list of each place that the user has visited
+    user_places = set()
+    for liked_image in liked_visited_images:
+        user_places.add(liked_image.place)
+
+
     return render_template('placesvisited.html', username=username,
-                           profile_picture=profile_picture, user=user, visited=visited)
+                           profile_picture=profile_picture, user=user, visited=visited,user_places=user_places)
 
 
 @app.route("/likedimageinfo/<int:place_id>", methods=['GET'])
@@ -229,15 +234,17 @@ def findmehere():
 
     return render_template('mapmehere.html')
 
-@app.route('/photo_info.json')
+@app.route('/map_photo_info.json')
 def photo_info():
     """JSON information about photo and place details."""
 
     list_of_liked_objects = db.session.query(LikedImage, Place).filter_by(user_id=session['user_id']).join(Place).all()
+    print list_of_liked_objects
 
     list_of_places = []
 
     for image, place in list_of_liked_objects:
+        print image
                         #key/value
         place_info = {
                 "placeId": place.place_id,
@@ -254,6 +261,7 @@ def photo_info():
         list_of_places.append(place_info)
 
     places_dict = {'places': list_of_places}
+    print places_dict
 
     return jsonify(places_dict)
 
