@@ -310,10 +310,13 @@ def photo_info():
     list_of_places = []
 
     for image, place in list_of_liked_objects:
-        # if visited is True:
-        #     return "Yes"
-        # else:
-        #     return "No"
+        if image.visited is True:
+            image.visited = "Yes"
+        else:
+            image.visited = "No"
+        if not image.user_note:
+            image.user_note = "Sorry, no notes"
+
 
         print image
                         #key/value
