@@ -5,7 +5,8 @@ import os
 
 printer = pprint.PrettyPrinter()
 access_token = os.environ['ACCESS_TOKEN']
-print "access_token: ", access_token
+geocode_key = os.environ['GEOCODE_KEY']
+
 
 
 def store_user_info():
@@ -57,13 +58,24 @@ def store_user_info():
 
             print 'image_url: ', image_url
 
+            geocode_info = requests.get(("https://maps.googleapis.com/maps/api/geocode/json?latlng={},{}&key={}").format(latitude, longitude, geocode_key))
+
+            geocode_results = geocode_info.json()
+
+            geo_code = geocode_results['results']
+
+            locationx = geo_code[0]
+
+            address = locationx['formatted_address']
+
+
             # Is there already a place with this instagram place id? if yes, dont add
             place = model.Place.query.filter_by(instagram_place_id=instagram_place_id).first()
 
             if not place:
 
                 place = model.Place(place_name=place_name, latitude=latitude, longitude=longitude,
-                                    instagram_place_id=instagram_place_id)
+                                    instagram_place_id=instagram_place_id, address=address)
 
                 model.db.session.add(place)
                 model.db.session.commit()

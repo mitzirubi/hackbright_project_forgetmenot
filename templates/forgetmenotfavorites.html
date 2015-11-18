@@ -32,9 +32,9 @@
         <a href = "/likedimageinfo/{{ image.place.place_id }}"> 
             {{ image.place.place_name }} </a></td> 
 
-        Location:{{ image.place.latitude }} {{ image.place.longitude }}
+        Location:{{ image.place.address }}
     
-        <!--Input changed to radio of places user has visited !--> 
+        <!--Input changed to radio buttons of places user has visited !--> 
         <label> Visited? 
             <p>
                 {{ image.place.place_id }}

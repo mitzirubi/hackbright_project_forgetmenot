@@ -45,6 +45,7 @@ class Place(db.Model):
     latitude = db.Column(db.Integer, nullable=False)   # location of place
     longitude = db.Column(db.Integer, nullable=False)
     instagram_place_id = db.Column(db.Integer, nullable=False)  # location of restuarant
+    address = db.Column(db.String(200), nullable=True)
 
     def __repr__(self):
         """Provide helpful information about the place."""

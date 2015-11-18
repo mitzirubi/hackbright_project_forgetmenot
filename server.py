@@ -8,6 +8,10 @@ from flask_debugtoolbar import DebugToolbarExtension
 
 from model import Place, User, LikedImage, Category, connect_to_db, db
 
+import os
+
+geocode_key = os.environ['GEOCODE_KEY']
+
 app = Flask(__name__)
 
 # Required to use Flask sessions and the debug toolbar
@@ -111,7 +115,7 @@ def logout():
 
 @app.route('/forgetmenotfavorites')
 def forgetmenotfavorites():
-    """Render all of the users favorited IG posts this is the main page."""
+    """Render all of the users favorited IG photos, this is the main page."""
 
     user_id = session["user_id"]
 
@@ -134,8 +138,9 @@ def show_user_profile():
         for value in request.form.getlist(place_id):
 
             print place_id, ":", value
-        
-        user_liked_image = LikedImage.query.filter(LikedImage.place_id ==place_id, LikedImage.user_id == session['user_id']).all()
+
+        user_liked_image = LikedImage.query.filter(LikedImage.place_id == place_id,
+                           LikedImage.user_id == session['user_id']).all()
 
         if request.form.get(place_id) == "no":
             for liked_image in user_liked_image:
@@ -161,8 +166,12 @@ def show_user_profile():
         user_places.add(liked_image.place)
 
 
-    return render_template('placesvisited.html', username=username,
-                           profile_picture=profile_picture, user=user, visited=visited,user_places=user_places)
+    return render_template('placesvisited.html',
+                            username=username,
+                            profile_picture=profile_picture,
+                            user=user,
+                            visited=visited,
+                            user_places=user_places)
 
 
 @app.route("/likedimageinfo/<int:place_id>", methods=['GET'])
@@ -180,10 +189,19 @@ def likedimageinfo(place_id):
     longitude = likedimage.place.longitude
     user_note = likedimage.user_note
     visited = likedimage.visited
+    address = likedimage.place.address
 
 
-    return render_template("likedimageinfo.html", place_id=place_id, place_name=place_name,
-                           latitude=latitude, longitude=longitude, place_info=likedimage.place, visited=visited,
+
+
+    return render_template("likedimageinfo.html",
+                           place_id=place_id,
+                           place_name=place_name,
+                           latitude=latitude,
+                           longitude=longitude,
+                           address=address,
+                           place_info=likedimage.place,
+                           visited=visited,
                            user_note=user_note)
 
 @app.route('/usernotes.json', methods=["POST"])
@@ -205,10 +223,10 @@ def update_user_notes():
         return redirect("/welcome")
 
     else:                                           #model=server route
-        print place_id
         get_likedImage = LikedImage.query.filter_by(user_id=user_id,place_id=place_id).first()
         print get_likedImage ##incorrect place id is shown here and committed
         print place_id
+        
         get_likedImage.user_note = user_note
         print get_likedImage
 
@@ -244,6 +262,11 @@ def photo_info():
     list_of_places = []
 
     for image, place in list_of_liked_objects:
+        # if visited is True:
+        #     return "Yes"
+        # else:
+        #     return "No"
+
         print image
                         #key/value
         place_info = {
@@ -252,6 +275,7 @@ def photo_info():
                 "category": place.category,
                 "latitude": place.latitude,
                 "longitude": place.longitude,
+                "address" : place.address,
                 "igPlaceId": place.instagram_place_id,
                 "imageUrl": image.image_url,
                 "visited": image.visited,
