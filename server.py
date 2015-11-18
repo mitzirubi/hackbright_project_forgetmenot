@@ -7,10 +7,13 @@ from flask import Flask, render_template, redirect, request, flash, session, jso
 from flask_debugtoolbar import DebugToolbarExtension
 
 from model import Place, User, LikedImage, Category, connect_to_db, db
-
+from instagram import client
 import os
 
+
 geocode_key = os.environ['GEOCODE_KEY']
+# client_id = os.environ['INSTAGRAM_CLIENT']
+# client_secret = os.enviro['INSTAGRAM_SECRET']
 
 app = Flask(__name__)
 
