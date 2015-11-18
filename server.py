@@ -25,21 +25,59 @@ app.secret_key = "ABC"
 app.jinja_env.undefined = StrictUndefined
 
 ################################################################################
+#OAUTH: using python wrapper
+#Instagram uses OAuth2 for authentication, which means that my app needs a flow
+#which redirect users to Instagram, gets a token from them, upgrades that to an
+# access token, and then saves that access token for any time it wants to make
+#authenticated requests on behalf of the user.
 
-
-@app.route('/welcome')
-def welcome_page():
-    """Homepage."""
-
-    return render_template("welcome.html")
-
-
-@app.route('/authentication')
-def user_authentication():
+#On the welcome page, users click on a button that hits this view and redirects them to Instagram:
+@app.route('/authorize-instagram', methods=['POST'])
+def authorize_instagram():
     """This will prompt the user to authorize Forgetmenot to their IG account."""
-    pass
+
+    from instagram import client
+
+    redirect_uri = (util.get_host() + url_for('handle_instagram_authorization'))
+
+    instagram_client = client.InstagramAPI(client_id=INSTAGRAM_CLIENT,
+                                           client_secret=INSTAGRAM_SECRET,
+                                           redirect_uri=redirect_uri)
+
+    return redirect(instagram_client.get_authorize_url(scope=['basic']))
 
 
+@app.route('/handle-instagram-authorization')
+def handle_instagram_authorization():
+    from instagram import client
+
+    code = request.values.get('code')
+    if not code:
+        return error_response('Missing code')
+    try:
+        redirect_uri = (util.get_host() + url_for('handle_instagram_authorization'))
+
+        instagram_client = client.InstagramAPI(client_id=INSTAGRAM_CLIENT,
+                                               client_secret=INSTAGRAM_SECRET,
+                                               redirect_uri=redirect_uri)
+
+        access_token, instagram_user = instagram_client.exchange_code_for_access_token(code)
+
+        if not access_token:
+            return error_response('Could not get access token')
+
+        g.user.instagram_userid = instagram_user['id']
+        g.user.instagram_auth = access_token
+        g.user.save()
+        deferred.defer(fetch_instagram_for_user, g.user.get_id(),count=20, _queue='instagram')
+
+    except Exception, e:
+        return error_response('Error')
+
+    return redirect(url_for('settings_data') + '?after_instagram_auth=True')
+
+################################################################################
+#TODO:
 #this will be in optional user profile data!
 # @app.route('/register', methods=['GET'])
 # def register_form():
@@ -80,6 +118,13 @@ def user_authentication():
 #UPDATE Users SET user_email="email",user_password ="pw" Where user_id='id';
 #Added my information to debug route
 
+################################################################################
+
+@app.route('/welcome')
+def welcome_page():
+    """Homepage."""
+
+    return render_template("welcome.html")
 
 @app.route('/login_confirmation', methods=['POST'])
 def login_process():
