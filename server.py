@@ -224,9 +224,9 @@ def update_user_notes():
 
     else:                                           #model=server route
         get_likedImage = LikedImage.query.filter_by(user_id=user_id,place_id=place_id).first()
-        print get_likedImage ##incorrect place id is shown here and committed
+        print get_likedImage  # incorrect place id is shown here and committed
         print place_id
-        
+
         get_likedImage.user_note = user_note
         print get_likedImage
 
