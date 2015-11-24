@@ -2,51 +2,44 @@
 {% block content %}
 
 
-<div>
+<div> <!--starting div !--> 
     <h2>Forgetmenot favorited photos:</h2>
                 <!--likedimage = list !--> 
 
     <form  id="visited-validation-form" action="/placesvisited" method="POST">
         
+    <div class="row">
   
     {% for image in likedimages %}
 
-    <div class="panel panel-default">
-
-        <div class="panel-body">
+    <div class="col-sm-6 col-md-4">
 
         <!--grabbing attribute from object, and links to place profile !--> 
-<div class="row">
-  <div class="col-sm-6 col-md-4">
     <div class="thumbnail">
-        <div class="caption">
-        <p><a href = "/likedimageinfo/{{ image.place.place_id }}"><p> <br>
+    <div class="caption">
+        <p><a href = "/likedimageinfo/{{ image.place.place_id }}">
         
-        <img class="likedimage" src="{{ image.image_url }} "> </a><br>
+        <img class="likedimage" src="{{ image.image_url }} "> </a><p> 
         
         <a href = "/likedimageinfo/{{ image.place.place_id }}"> 
         <strong>{{ image.place.place_name }} </strong></a><br>
         
-        <strong>Location</strong>:{{ image.place.address }}<br><br>
+        <strong>Location</strong>:{{ image.place.address }}<br>
 
         <!--Input changed to radio buttons of places user has visited !--> 
         <label> Visited?
             <p>
-                
              <input type="radio" name="{{ image.place.place_id }}" value="yes"
              {% if image.visited %} checked 
                 {% endif %}>Yes
              <input type="radio" name="{{ image.place.place_id }}" value="no">No
-
             </p>
         </label>
-       </div>
     </div>
-  </div>
-</div>
-</div>
-</div>
+    </div>
+    </div>
     {% endfor %}
+    </div>
 
     </form>
     
@@ -59,9 +52,7 @@
         alert("Visited places updated!")
         $('#visited-validation-form').submit();
     }
-
     </script> 
-   
-</div>
+</div> <!--closing div !--> 
 
 {% endblock %}
