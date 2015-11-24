@@ -97,7 +97,7 @@ def connect_to_db(app):
     """Connect the database to our Flask app."""
 
     # Configure to use our SQLite database (app is an instance and config is a dictionary)
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///forgetmenot.db'  
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///forgetmenot.db'
     db.app = app
     db.init_app(app)
 

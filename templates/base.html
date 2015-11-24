@@ -5,17 +5,77 @@
     <title> Forgetmenot </title>
      <!-- Bootstrap -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
      <!-- my style.css -->
     <link href="/static/style.css" rel="stylesheet" type='text/css'>
+    <!-- jquery -->
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <!-- google maps -->
     <script src="https://maps.googleapis.com/maps/api/js"></script>
+    <!-- google fonts -->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,600italic,600,700italic,700' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Playball' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Oleo+Script:400' rel='stylesheet' type='text/css'>
 
 </head>
 
-<body>
+<body> 
+
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="##navbar-collapse-1" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/welcome"><img alt="Forgetmenot" src="/static/img/favicon(1).ico"></a>
+        <a class="navbar-brand" href="/welcome"><img alt="Forgetmenot" src="/static/img/font.png">
+      </div>
+    <!--  <ul class="navbar-form navbar-right">  -->
+          
+        
+       <!-- <ul class="nav navbar-nav navbar-right">  -->
+          
+          {% if not session.get('user_id') %}
+      
+
+          <form class="navbar-form navbar-right" action="/login_confirmation" method="POST"> 
+            <div class="form-group">
+              <input class="form-control" type="text" name="username" placeholder="username">
+            </div>
+            <div class="form-group">
+              <input class="form-control" type="password" name="password" placeholder="password">
+            </div>
+
+            <button type="submit" class="btn btn-default">Login</button> 
+          </form>
+
+          {% else  %}
+          <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li><a href="/forgetmenotfavorites">Favorites</a><span class="sr-only">(current)</span></a></li>
+          <li><a href="/mapmehere">Forgetmenot Map</a></li>
+          <li><a href="/placesvisited">Places Visited</a></li>
+        </ul>
+          <form class="navbar-form navbar-right" action="/logout"> 
+          <button type="submit" class="btn btn-default">Logout</button>
+          </form>
+          {% endif %}
+
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+  </nav>
+
+
+
     <div id="alert-section"> </div>
-    <h1>Forgetmenot</h2>
-        <i>"For those likes you want to remember"<i>
+    <!-- <h1>Forgetmenot</h2>
+        <i>"For those likes you want to remember"<i> -->
     
     <hr> <!--horizontal row !--> 
     <strong> 

@@ -3,17 +3,28 @@
 
 from jinja2 import StrictUndefined
 
-from flask import Flask, render_template, redirect, request, flash, session, jsonify
+from flask import Flask, render_template, redirect, request, flash, session, jsonify, abort
 from flask_debugtoolbar import DebugToolbarExtension
 
 from model import Place, User, LikedImage, Category, connect_to_db, db
-from instagram import client
+import model
+import requests
+import pprint
 import os
 
+# from instagram.client import InstagramAPI
+# import time
 
+# printer = pprint.PrettyPrinter()
+# access_token = os.environ['ACCESS_TOKEN']
 geocode_key = os.environ['GEOCODE_KEY']
-# client_id = os.environ['INSTAGRAM_CLIENT']
-# client_secret = os.enviro['INSTAGRAM_SECRET']
+
+# instaConfig = {
+#     'client_id':os.environ.get('CLIENT_ID'),
+#     'client_secret':os.environ.get('CLIENT_SECRET'),
+#     'redirect_uri' : os.environ.get('REDIRECT_URI')
+# }
+# api = InstagramAPI(**instaConfig)
 
 app = Flask(__name__)
 
@@ -23,100 +34,6 @@ app.secret_key = "ABC"
 # Normally, if you use an undefined variable in Jinja2, it fails silently.
 # This is horrible. Fix this so that, instead, it raises an error.
 app.jinja_env.undefined = StrictUndefined
-
-################################################################################
-#OAUTH: using python wrapper
-#Instagram uses OAuth2 for authentication, which means that my app needs a flow
-#which redirect users to Instagram, gets a token from them, upgrades that to an
-# access token, and then saves that access token for any time it wants to make
-#authenticated requests on behalf of the user.
-
-#On the welcome page, users click on a button that hits this view and redirects them to Instagram:
-@app.route('/authorize-instagram', methods=['POST'])
-def authorize_instagram():
-    """This will prompt the user to authorize Forgetmenot to their IG account."""
-
-    from instagram import client
-
-    redirect_uri = (util.get_host() + url_for('handle_instagram_authorization'))
-
-    instagram_client = client.InstagramAPI(client_id=INSTAGRAM_CLIENT,
-                                           client_secret=INSTAGRAM_SECRET,
-                                           redirect_uri=redirect_uri)
-
-    return redirect(instagram_client.get_authorize_url(scope=['basic']))
-
-
-@app.route('/handle-instagram-authorization')
-def handle_instagram_authorization():
-    from instagram import client
-
-    code = request.values.get('code')
-    if not code:
-        return error_response('Missing code')
-    try:
-        redirect_uri = (util.get_host() + url_for('handle_instagram_authorization'))
-
-        instagram_client = client.InstagramAPI(client_id=INSTAGRAM_CLIENT,
-                                               client_secret=INSTAGRAM_SECRET,
-                                               redirect_uri=redirect_uri)
-
-        access_token, instagram_user = instagram_client.exchange_code_for_access_token(code)
-
-        if not access_token:
-            return error_response('Could not get access token')
-
-        g.user.instagram_userid = instagram_user['id']
-        g.user.instagram_auth = access_token
-        g.user.save()
-        deferred.defer(fetch_instagram_for_user, g.user.get_id(),count=20, _queue='instagram')
-
-    except Exception, e:
-        return error_response('Error')
-
-    return redirect(url_for('settings_data') + '?after_instagram_auth=True')
-
-################################################################################
-#TODO:
-#this will be in optional user profile data!
-# @app.route('/register', methods=['GET'])
-# def register_form():
-#     """Show form for user signup."""
-
-#     return render_template("registration_form.html")
-
-
-# @app.route('/register', methods=['POST'])
-# def register_process():
-#     """New user login information."""
-
-#     # Get form variables from form in POST request
-#     email = request.form['email']
-#     password = request.form['password']
-#     username = request.form['username']
-
-#     new_registered_user = User.query.filter_by(username=User.username).first()
-
-#     if not new_registered_user:
-#         flash("You first need to connect Forgetmenot to Instagram")
-#         return redirect("/welcome")
-#         #my OAuth will be in the welcome page!
-
-#     if new_registered_user.username == User.username:
-#         new_registered_user.password = password
-#         new_registered_user.email = email
-
-#         db.session.commit()
-
-#         session["user_id"] = user.user_id
-
-#         flash("Your username %s has been verified, %s and %s have been added to your profile.") % (username, email, password)
-#         return redirect('/placesvisited')
-
-
-#Once user have authenticated and registerd their information then they can login
-#UPDATE Users SET user_email="email",user_password ="pw" Where user_id='id';
-#Added my information to debug route
 
 ################################################################################
 
@@ -149,10 +66,10 @@ def login_process():
 
     session["user_id"] = user.user_id
 
-    flash("Welcome, you are now logged in.")
+    flash("Welcome %s , you are now logged in." % username)
     return redirect('/forgetmenotfavorites')
 
-@app.route('/logout', methods=['POST'])
+@app.route('/logout')
 def logout():
     """Log out."""
 
@@ -179,9 +96,7 @@ def forgetmenotfavorites():
 def show_user_profile():
     """Render the user profile and show their basic info and visited likes."""
 
-    # visited = request.form.getlist('visited')
-    # all_user_visited_place_ids = request.form.getlist('visited')  # image ids of places visited
-    print request.form
+    # print request.form
     for place_id in request.form.keys():
         for value in request.form.getlist(place_id):
 
@@ -240,8 +155,6 @@ def likedimageinfo(place_id):
     address = likedimage.place.address
 
 
-
-
     return render_template("likedimageinfo.html",
                            place_id=place_id,
                            place_name=place_name,
@@ -255,16 +168,15 @@ def likedimageinfo(place_id):
 @app.route('/usernotes.json', methods=["POST"])
 def update_user_notes():
     # save the new user notes in DB
-    print "*** GOT HERE"
+    # print "*** GOT HERE***"
     user_note = request.form.get('user_notes')
     place_id = request.form.get('placeId')
 
-    print '\n\n\n\n', user_note, place_id, '\n\n\n\n'
-
+    # print user_note, place_id
 
     user_id = session.get("user_id")
 
-    print '\n\n\n\n', user_id, '\n\n\n\n'
+    # print user_id
 
     if not user_id:
         flash("User not logged in.")
@@ -272,7 +184,7 @@ def update_user_notes():
 
     else:                                           #model=server route
         get_likedImage = LikedImage.query.filter_by(user_id=user_id,place_id=place_id).first()
-        print get_likedImage  # incorrect place id is shown here and committed
+        print get_likedImage  
         print place_id
 
         get_likedImage.user_note = user_note
@@ -313,9 +225,9 @@ def photo_info():
         if image.visited is True:
             image.visited = "Yes"
         else:
-            image.visited = "No"
+            image.visited = "Not visited"
         if not image.user_note:
-            image.user_note = "Sorry, no notes"
+            image.user_note = "Sorry, you have no notes."
 
 
         print image
@@ -341,11 +253,6 @@ def photo_info():
     return jsonify(places_dict)
 
 
-# @app.route('/logout')
-#     """Displays all of users favorited IG posts in a map view"""
-#     pass
-
-
 ################################################################################
 
 
@@ -360,4 +267,7 @@ if __name__ == "__main__":
     # Use the DebugToolbar
     DebugToolbarExtension(app)
 
-    app.run()
+    # app.run()
+
+    port = int(os.environ.get('PORT', 5000)) # locally PORT 5000, Heroku will assign its own port
+    app.run(host='0.0.0.0', port=port)
