@@ -8,30 +8,44 @@
 
     <form  id="visited-validation-form" action="/placesvisited" method="POST">
         
-   
+  
     {% for image in likedimages %}
-        
+
+    <div class="panel panel-default">
+
+        <div class="panel-body">
+
         <!--grabbing attribute from object, and links to place profile !--> 
-        <a href = "/likedimageinfo/{{ image.place.place_id }}">
+<div class="row">
+  <div class="col-sm-6 col-md-4">
+    <div class="thumbnail">
+        <div class="caption">
+        <p><a href = "/likedimageinfo/{{ image.place.place_id }}"><p> <br>
         
-        <img class="likedimage" src="{{ image.image_url }} "> </a></td>
+        <img class="likedimage" src="{{ image.image_url }} "> </a><br>
         
         <a href = "/likedimageinfo/{{ image.place.place_id }}"> 
-            {{ image.place.place_name }} </a></td> 
+        <strong>{{ image.place.place_name }} </strong></a><br>
+        
+        <strong>Location</strong>:{{ image.place.address }}<br><br>
 
-        Location:{{ image.place.address }}
-    
         <!--Input changed to radio buttons of places user has visited !--> 
-        <label> Visited? 
+        <label> Visited?
             <p>
-                {{ image.place.place_id }}
+                
              <input type="radio" name="{{ image.place.place_id }}" value="yes"
              {% if image.visited %} checked 
                 {% endif %}>Yes
              <input type="radio" name="{{ image.place.place_id }}" value="no">No
+
             </p>
         </label>
-
+       </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
     {% endfor %}
 
     </form>
