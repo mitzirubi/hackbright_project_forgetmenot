@@ -20,71 +20,76 @@
     <link href='https://fonts.googleapis.com/css?family=Alegreya+Sans:500,500italic' rel='stylesheet' type='text/css'>
 </head>
 
+
+
 <body> 
+  
+<!--START OF NAV BAR -->
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/welcome"><img alt="Forgetmenot" src="/static/img/favicon(1).ico"></a>
+      <a class="navbar-brand" href="/welcome"><img alt="Forgetmenot" src="/static/img/font.png"></a>
+    </div>
 
-  <nav class="navbar navbar-default">
-    <div class="container-fluid">
-      <!-- Brand and toggle get grouped for better mobile display -->
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="##navbar-collapse-1" aria-expanded="false">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="/welcome"><img alt="Forgetmenot" src="/static/img/favicon(1).ico"></a>
-        <a class="navbar-brand" href="/welcome"><img alt="Forgetmenot" src="/static/img/font.png"></a>
-      </div>
-    <!--  <ul class="navbar-form navbar-right">  -->
-          
-        
-       <!-- <ul class="nav navbar-nav navbar-right">  -->
-          
-          {% if not session.get('user_id') %}
-      
-          <div class="nav navbar-nav navbar-right">
-          <form class="navbar-form navbar-right" action="/login_confirmation" method="POST"> 
-            <div class="form-group">
-              <input class="form-control" type="text" name="username" placeholder="username">
-            </div>
-            <div class="form-group">
-              <input class="form-control" type="password" name="password" placeholder="password">
-            </div>
-
-            <button type="submit" class="btn btn-default">Login</button> 
-          </form>
-      </div>
-          {% else  %}
-          <!-- Collect the nav links, forms, and other content for toggling -->
-      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-        <ul class="nav navbar-nav">
-          <li><a href="/forgetmenotfavorites">Favorites</a><span class="sr-only">(current)</span></a></li>
-          <li><a href="/placesvisited">Places Visited</a></li>
-          <li><a href="/mapmehere">Forgetmenot Map</a></li>
-          
-        </ul>
+    {% if session.get('user_id') %}
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li><a href="/forgetmenotfavorites">Favorites <span class="sr-only">(current)</span></a></li>
+        <li><a href="/placesvisited">Places Visited</a></li>
+        <li class="dropdown">
+        <li><a href="/mapmehere">Forgetmenot Map</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
           <form class="navbar-form navbar-right" action="/logout"> 
-          <button type="submit" class="btn btn-default">Logout</button>
+            <button type="submit" class="btn btn-default">Logout</button>
           </form>
-          {% endif %}
+        </li>
+
+      {% else  %}
+        
+          <form class="navbar-form navbar-right" action="/login_confirmation" method="POST">
+            <div class="form-group">
+               <input class="form-control" type="text" name="username" placeholder="username">
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="password" name="password" placeholder="password">
+            </div>
+            <button type="submit" class="btn btn-default">Login</button>
+          </form>
+        
+
+        {% endif %}
 
         </ul>
-      </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
-  </nav>
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+<!--End of NAV BAR -->
 
 
 
-    <div id="alert-section"> </div>
-    <!-- <h1>Forgetmenot</h2>
-        <i>"For those likes you want to remember"<i> -->
+<!--This is for the JS Alerts -->
+<div id="alert-section"> </div>
     
-    <hr> <!--horizontal row !--> 
-    <strong> 
-    {% for message in get_flashed_messages() %}
-        {{message}}  <!--enables my flash messages !--> 
-        {% endfor %} 
-    </strong> 
+<hr><!--horizontal row !--> 
+  <strong> 
+  {% for message in get_flashed_messages() %}
+      {{message}}  <!--enables my flash messages !--> 
+      {% endfor %} 
+  </strong> 
 
     {% block content %} 
 
