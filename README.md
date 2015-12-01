@@ -32,7 +32,7 @@ This app has four main sections:
   ![alt text](https://github.com/mitzirubi/hackbright_project_forgetmenot/blob/master/static/img/Readme/modalwindow.png "Modal window")
 
 * __Likedimageinformation__, this feature provides a user with the location information for the liked image. They can see the liked image, the address information, a map of the location and write notes on their experience or keep track of their friends recommendations.
-  !(https://github.com/mitzirubi/hackbright_project_forgetmenot/blob/master/static/img/Readme/placeinformation.png)
+  (https://github.com/mitzirubi/hackbright_project_forgetmenot/blob/master/static/img/Readme/placeinformation.png)
 
 
 
