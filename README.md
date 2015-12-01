@@ -30,7 +30,7 @@ This app has four main sections:
 * __Forgetmenot Map__, renders all the users likes in a map view, it has a geolocation configuration so it knows where the user is located. The markers contain modal windows where they can be redirected to either google maps for directions or the Liked image information section.  
 
    ![alt text](https://github.com/mitzirubi/hackbright_project_forgetmenot/blob/master/static/img/Readme/forgetmenotmap.png "Forgetmenot Map")
-  * __Forgetmenot Map window:__
+* __Forgetmenot Map window:__
   ![alt text](https://github.com/mitzirubi/hackbright_project_forgetmenot/blob/master/static/img/Readme/modalwindow.png "Modal window")
 
 * __Likedimageinformation__, this feature provides a user with the location information for the liked image. They can see the liked image, the address information, a map of the location and write notes on their experience or keep track of their friends recommendations.
