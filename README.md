@@ -10,7 +10,7 @@ Rubi graduated from UC Davis and was a fellow in Hackbright Cohort #12. She is a
 * [App features](#features)
 * [How to locally run Forgetmenot](#run)
 
-# #Forgetmenot
+# Forgetmenot
 
 Forgetmenot gives foodies the ability to keep track of the likes they want to remember, using the images geotag location. Users can enjoy checking places of their list and adding more liked images later.
 
