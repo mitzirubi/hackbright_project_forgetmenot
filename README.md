@@ -16,6 +16,7 @@ Forgetmenot gives foodies the ability to keep track of the likes they want to re
 
 ![alt text](https://github.com/mitzirubi/hackbright_project_forgetmenot/blob/master/static/img/Readme/homepage.png "Homepage")
 
+
 ## <a name="features"></a>App features
 This app has four main sections:
 * __Favorites__, renders all the users instagram liked images that contain geotag locations. 
@@ -40,11 +41,11 @@ This app has four main sections:
 
 * Set up and activate a python virtualenv, and install all dependencies:
     * `pip install -r requirements.txt`
-    * `source secrest.sh`
+    * `source secrets.sh`
 * Create the tables in your database:
     * `python -i model.py`
     * While in interactive mode, create tables: `db.create_all()`
-* Next, seed your data (you must have an Instagram API key(remember to source your secrets!) before running your seed file. In this seed file you will make a request to both Instagram and google maps. Which will request the user liked images, and commit them to your database(WIP: OAuth):
+* Next, seed your data (you must have an Instagram API key(remember to source your secrets!) before running your seed file. In this seed file you will make requests to both the Instagram API and Google maps API. The Instagram request will get the users liked images and commit them to your database(WIP: OAuth). The google maps api will use the be use to use the Instagram Lat/long and convert the address into a readable address and store that along with the other information into the Forgetmenot database. 
    * `python seed.py`
 * Start up the flask server:
     * `python server.py`
