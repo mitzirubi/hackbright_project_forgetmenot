@@ -1,3 +1,9 @@
+
+## <a name="author"></a>About the author
+
+
+Rubi graduated from UC Davis and was a fellow in Hackbright Cohort #12. She is a Software engineer with a background in customer support and exposure to the share economy and on demand deliveries. She is a highly motivated, hardworking, and social individual who values opportunities that will foster learning and professional growth. For more details see her [linkedin] (https://www.linkedin.com/in/mitzirubimartinez) profile.
+
 # #Forgetmenot
 
 Forgetmenot gives foodies the ability to keep track of the likes they want to remember, using the images geotag location. Users can enjoy checking places of their list and adding more liked images later.
@@ -15,7 +21,7 @@ This app has four main sections:
 
 * __Forgetmenot Map__, renders all the users likes in a map view, it has a geolocation configuration so it knows where the user is located. The markers contain modal windows where they can be redirected to either google maps for directions or the Liked image information section.  
   ![alt text](https://github.com/mitzirubi/hackbright_project_forgetmenot/blob/master/static/img/Readme/forgetmenotmap.png "Forgetmenot Map")
-  * __Forgetmenot Map Modal window:__
+  * __Forgetmenot Map window:__
   ![alt text](https://github.com/mitzirubi/hackbright_project_forgetmenot/blob/master/static/img/Readme/modalwindow.png "Modal window")
 
 * __Likedimageinformation__, this feature provides a user with the location information for the liked image. They can see the liked image, the address information, a map of the location and write notes on their experience or keep track of their friends recommendations.
@@ -61,8 +67,4 @@ This app has four main sections:
 
 (dependencies are listed in requirements.txt)
 
-## <a name="author"></a>About the author
-
-
-Rubi graduated from UC Davis and was a fellow in Hackbright Cohort #12. She is a Software engineer with a background in customer support and exposure to the share economy and on demand deliveries. She is a highly motivated, hardworking, and social individual who values opportunities that will foster learning and professional growth. For more details see her [linkedin] (https://www.linkedin.com/in/mitzirubimartinez) profile.
 
