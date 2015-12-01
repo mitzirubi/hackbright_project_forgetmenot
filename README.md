@@ -2,7 +2,7 @@
 ## <a name="author"></a>About the author
 
 
-Rubi graduated from UC Davis and was a fellow in Hackbright Cohort #12. She is a Software engineer with a background in customer support and exposure to the share economy and on demand deliveries. She is a highly motivated, hardworking, and social individual who values opportunities that will foster learning and professional growth. For more details see her [linkedin] (https://www.linkedin.com/in/mitzirubimartinez) profile.
+Rubi graduated from UC Davis and was a fellow in Hackbright Cohort #12. She is a Software engineer with a background in customer support and exposure to the share economy and on demand delivery. She is a highly motivated, hardworking, and social individual who values opportunities that will foster learning and professional growth. For more details see her [linkedin] (https://www.linkedin.com/in/mitzirubimartinez) profile.
 
 # #Forgetmenot
 
