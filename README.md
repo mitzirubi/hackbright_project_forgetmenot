@@ -6,13 +6,13 @@ Forgetmenot gives foodies the ability to keep track of the likes they want to re
 
 This app has four main sections:
 * __Favorites__, renders all the users instagram liked images that contain geotag locations. 
-  ![alt text]https://github.com/mitzirubi/hackbright_project_forgetmenot/blob/master/static/img/Readme/favorites.png "Favorites"
+  ![alt text](https://github.com/mitzirubi/hackbright_project_forgetmenot/blob/master/static/img/Readme/favorites.png "Favorites")
 * __Places Visited__, users can keep track of the locations they have vistied.
-  ![alt text]https://github.com/mitzirubi/hackbright_project_forgetmenot/blob/master/static/img/Readme/placesvisited.png
+  ![alt text](https://github.com/mitzirubi/hackbright_project_forgetmenot/blob/master/static/img/Readme/placesvisited.png "Places Visited")
 * __Forgetmenot Map__, renders all the users likes in a map view. The markers contain modal windows where they can be redirected to either google maps for directions or the Liked image information section.  
-  ![alt text]https://github.com/mitzirubi/hackbright_project_forgetmenot/blob/master/static/img/Readme/forgetmenotmap.png
+  ![alt text](https://github.com/mitzirubi/hackbright_project_forgetmenot/blob/master/static/img/Readme/forgetmenotmap.png "Forgetmenot Map")
 * __Likedimageinformation__, this feature provides a user with the location information for the liked image. They can see the liked image, the address information, a map of the location and write notes on their experience or keep track of their friends recommendations.
-  ![alt text]https://github.com/mitzirubi/hackbright_project_forgetmenot/blob/master/static/img/Readme/placeinformation.png
+  ![alt text](https://github.com/mitzirubi/hackbright_project_forgetmenot/blob/master/static/img/Readme/placeinformation.png "Likedimageinfo")
 
 
 ## Table of Contents
