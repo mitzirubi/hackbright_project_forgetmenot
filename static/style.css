@@ -1,0 +1,125 @@
+table, td  {
+    border: 5px solid black;
+}
+
+
+.likedimage {
+    height: 200px;
+}
+
+#map {
+    height:600px;
+    width: 1050px;
+    margin: 0 auto;
+}
+
+#profile-map {
+    height: 300px;
+    width: 500px;
+}
+
+
+#place-image {
+    height: 300px;
+    width: 300px;
+}
+
+.nav, .navbar, .navbar-default {
+    background-color: #043456;
+    font-family: 'Oleo Script', cursive; 
+}
+
+body {
+   font-family: 'Alegreya Sans', sans-serif;
+   background-color:#d3d0cd;
+   margin: 15px;
+}
+
+.navbar-default .navbar-nav>li>a {
+    color: white;
+    font-size: 18px;
+    padding-top: 19px;
+}
+
+
+.navbar-form .navbar-right .navbar-form {
+    padding: 30px 40px;
+    margin-top: 15px;
+    font-family: 'Oleo Script', cursive;
+}
+
+
+.navbar-brand {
+    float: left;
+    height: 50px;
+    margin-top: 10px;
+    padding: 2px 15px;
+}
+
+.carousel-inner  > .item > img {
+    margin: 0 auto;
+}
+
+.carousel-caption  {
+    font-family: 'Oleo Script', cursive;
+    margin-top: 30px;
+    margin-bottom: 70px;
+    font-size: 65px;
+    color: black;
+}
+
+#userinfo {
+    margin: 0 auto;
+}
+
+.btn-default {
+    background-color: #D4D4D4;
+}
+
+#index-header {
+    font-family: 'Oleo Script', cursive;
+    margin: 0 auto;
+    margin-right: -15px;
+    margin-left: 450;
+    font-size: 39px;
+}
+
+.img-responsive {
+    margin: 0 auto;
+    font-family: 'Oleo Script', cursive;
+    font-size: 65px;
+}
+
+#subtitle {
+    margin: auto;
+    font-family: 'Oleo Script', cursive;
+    font-size: 50px;
+    text-align: center;
+}
+
+#userinfo {
+    text-align: center;
+    font-size: 35px;
+}
+.maptext {
+    text-align: center;
+}
+
+
+.navbar-default .navbar-nav>li>a:hover{
+
+   color: #BBFFFF;
+}
+
+.thumbnail a>img, .thumbnail>img {
+    display: grid;
+    max-width: 50%;
+    height: auto;
+    margin: auto;
+}
+
+#place-image {
+    margin: auto;
+    width: 400px;
+}
+
