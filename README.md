@@ -31,7 +31,7 @@ This app has four main sections:
 
 * Set up and activate a python virtualenv, and install all dependencies:
     * `pip install -r requirements.txt`
-  
+    * `source secrest.sh`
 * Create the tables in your database:
     * `python -i model.py`
     * While in interactive mode, create tables: `db.create_all()`
