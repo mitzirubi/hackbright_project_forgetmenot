@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div id="place-image">
+    
+    <h3> Your favorites at {{ place_info.place_name }}: </h3>
+
+    
+    {% for image in place_info.LikedImage %}
+    <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12">
+    <div class="thumbnail">
+
+        {% if visited %}
+          You have been here!
+        {% else %}
+          You have not been here, but you will one day! 
+        {% endif %}
+                <!--grabbing attribute from object (we can make the photos into list <li>) !--> 
+        <a href = "/likedimageinfo/{{ place_id }}">
+            <!--If we only wanted one image: place_info.LikedImage[0].image_url with no for loop !--> 
+        <img src="{{ image.image_url }}"> </a>
+    </div>
+    </div>
+    {% endfor %}
+
+    </div>
+ </div>
+
+ <!-- Map & notes section -->
+
+<div class="row">
+<div class="col-sm-6 col-md-6 col-lg-6 imagediv">
+    <div>
+        <h2> <strong>{{ place_info.place_name }} </strong></h2>
+        <p> Location: {{ place_info.address }} </p>
+    </div>
+
+    <!-- script of map, refrence JS below -->
+    <div id="profile-map"> </div> 
+
+</div>
+    <div class="col-sm-6 col-md-6 col-lg-6 imagediv">
+         <!-- NOTES Section -->
+        <h2> Notes </h2>
+        <div>
+            <form>
+                 <p> Notes and Recommendations for you or your friends!</p>
+                <textarea name="usernotes" rows="15" cols="70" id="user-notes"> {{ user_note }}</textarea><br><br>
+                <input id="submit-btn" type="submit" value="Save my notes!">
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+ <!--  script of map  -->
+
+<script> 
+
+function initMap() {
+    var myLatLng = { lat: {{ latitude }}, lng: {{ longitude }} };
+
+    var map = new google.maps.Map(document.getElementById('profile-map'), {
+    zoom: 12,
+    center: myLatLng
+    });
+
+    var marker = new google.maps.Marker({
+    position: myLatLng,
+    map: map,
+    title: 'Hello World!'
+    });
+} google.maps.event.addDomListener(window, 'load', initMap);
+
+
+function updateUserNotes(evt){
+    // send an ajax request.
+    evt.preventDefault();
+    var placeId = "{{ place_id }}";
+    var UserNotes = $('#user-notes').val();
+    //values we are passing back to flask route
+    var postParams = {
+        'user_notes': UserNotes,
+        'placeId': placeId
+    };
+    console.log(placeId); 
+        //eager load the new user notes into the places profile take usernotes and put it in dome. 
+        $('#update-notes').html('<div> '+ UserNotes +' </div>');
+
+    $.post('/usernotes.json', postParams, function(data){
+        // debugger;
+        // show alert Notes Saved!
+        console.log("got here!");
+
+        $('#alert-section').empty();
+        $('#alert-section').html('<div class="alert alert-info" role="alert">Notes saved!</div>');
+        $('#alert-section').html('<div class="alert alert-info" role="alert">Notes saved!</div>');
+    });
+}
+
+
+function displayUserNotes() {
+      console.log("before get");
+
+    $.get('/display_user_notes/{{ place_id }}.json', function (data) {
+        console.log(data)
+  });
+    console.log("after get")
+}
+
+// when the user submits, call this function
+$('#submit-btn').on('click', updateUserNotes);
+
+</script>
+
+{% endblock %}
