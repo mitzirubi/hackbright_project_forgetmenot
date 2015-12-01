@@ -10,6 +10,13 @@ Forgetmenot gives foodies the ability to keep track of the likes they want to re
 
 ![alt text](https://github.com/mitzirubi/hackbright_project_forgetmenot/blob/master/static/img/Readme/homepage.png "Homepage")
 
+## Table of Contents
+* [About the author](#author)
+* [Technologies Used](#technologiesused)
+* [App features](#features)
+* [How to locally run Forgetmenot](#run)
+
+## <a name="Features"></a>App Features
 This app has four main sections:
 * __Favorites__, renders all the users instagram liked images that contain geotag locations. 
   ![alt text](https://github.com/mitzirubi/hackbright_project_forgetmenot/blob/master/static/img/Readme/favorites.png "Favorites")
@@ -28,10 +35,7 @@ This app has four main sections:
   ![alt text](https://github.com/mitzirubi/hackbright_project_forgetmenot/blob/master/static/img/Readme/placeinformation.png "Likedimageinfo")
 
 
-## Table of Contents
-* [Technologies Used](#technologiesused)
-* [About the author](#author)
-* [How to locally run Forgetmenot](#run)
+
 
 ## <a name="run"></a>How to locally run Forgetmenot
 
